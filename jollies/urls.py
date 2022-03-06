@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from agrupaciones.views import nuevoManager, nuevaAgrupacion
 from usuarios.views import nuevoUsuario, loginUsuario
 from web.views import inicio
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio, name='index'),
-    path('nuevo_usuario/', nuevoUsuario, name="nuevoUsuario"),
-    path('iniciar_sesion/', loginUsuario),
+    path('nuevo_manager/', nuevoManager),
+    path('nueva_agrupacion',nuevaAgrupacion),
 ]

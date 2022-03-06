@@ -5,5 +5,4 @@ class Usuario(models.Model):
     apellido=models.CharField(max_length=255)
     correo=models.CharField(max_length=255)
     telefono=models.CharField(max_length=10)
-    password=models.CharField(max_length=255)
 

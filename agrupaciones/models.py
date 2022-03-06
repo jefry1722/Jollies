@@ -6,6 +6,7 @@ class Manager(models.Model):
     apellido = models.CharField(max_length=255)
     correo = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
+    fecha_renovacion = models.DateField()
 
 
 class Genero(models.Model):
@@ -17,8 +18,9 @@ class Agrupacion(models.Model):
     nombre = models.CharField(max_length=255)
     telefono = models.CharField(max_length=10)
     integrantes = models.IntegerField()
-    manager = models.ForeignKey(Manager, on_delete=models.SET_NULL, null=True)
-    genero = models.ForeignKey(Genero, on_delete=models.SET_NULL, null=True)
+    manager = models.ForeignKey(Manager, on_delete=models.SET_NULL,null=True )
+    genero = models.ForeignKey(Genero, on_delete=models.SET_NULL,null=True )
+    password = models.CharField(max_length=255 )
 
 
 class Media(models.Model):
