@@ -49,7 +49,44 @@ def nuevaAgrupacion(request):
             agrupacion= Agrupacion(nombre=nombre, correo=correo, telefono=telefono,
                                    password= passwd_crypted,genero=genero, manager_id=1, integrantes=integrantes)
             agrupacion.save()
-            return redirect('index')
+            return redirect('menu_manager')
     else:
         generos = Genero.objects.order_by('id')
     return render(request, 'nueva_agrupacion.html',{'generos':generos})
+
+def editarAgrupacion(request,id):
+    print(id)
+    return render(request,'editar_agrupacion.html')
+
+def loginManager(request):
+    if request.method == "POST":
+        correo = request.POST.get("correo")
+        passwd = request.POST.get("passwd")
+        try:
+            manager = Manager.objects.get(correo=correo)
+            if(manager.fecha_renovacion<date.today()):
+                return render(request,'login_manager.html',{'expiredDate':True})
+            if (check_password_hash(manager.password, passwd)):
+                return redirect('menu_manager')
+            else:
+                print("Contraseña incorrecta")
+        except:
+            print("No se encontró el correo")
+    return render(request, 'login_manager.html')
+
+def menuManager(request):
+    manager=Manager.objects.get(id=1)
+    agrupaciones=Agrupacion.objects.filter(manager=manager)
+    return render(request,'menu_manager.html',{'agrupaciones':agrupaciones})
+
+def renovateAccountDate(request):
+    if request.method == "POST":
+        start_date = date.today()
+        days_in_month = calendar.monthrange(start_date.year, start_date.month)[1]
+        renovation_date = start_date + timedelta(days=days_in_month)
+        manager = Manager.objects.get(id=1)
+        manager.fecha_renovacion=renovation_date
+        manager.save()
+        return render(request,'login_manager.html')
+
+    return render(request,'renovate.html')

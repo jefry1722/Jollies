@@ -16,13 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from agrupaciones.views import nuevoManager, nuevaAgrupacion
-from usuarios.views import nuevoUsuario, loginUsuario
+from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
+    editarAgrupacion
 from web.views import inicio
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio, name='index'),
-    path('nuevo_manager/', nuevoManager),
+    path('nuevo_manager', nuevoManager),
     path('nueva_agrupacion',nuevaAgrupacion),
+    path('login_manager',loginManager),
+    path('menu_manager',menuManager,name='menu_manager'),
+    path('renovate',renovateAccountDate),
+    path('editar_agrupacion/<int:id>',editarAgrupacion)
 ]

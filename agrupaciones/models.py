@@ -20,7 +20,8 @@ class Agrupacion(models.Model):
     integrantes = models.IntegerField()
     manager = models.ForeignKey(Manager, on_delete=models.SET_NULL,null=True )
     genero = models.ForeignKey(Genero, on_delete=models.SET_NULL,null=True )
-    password = models.CharField(max_length=255 )
+    password = models.CharField(max_length=255)
+    descripcion = models.CharField(max_length=255,null=True)
 
 
 class Media(models.Model):
