@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATICFILES_DIRS=['web/templates/static', 'agrupaciones/templates/static']
+
 
 # Application definition
 
