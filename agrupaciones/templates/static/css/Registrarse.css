@@ -14,6 +14,12 @@
   background-position: 50% 50%;
 }
 
+.u-section-1 .u-image-2 {
+  background-image: url("../img/guitar.jpg");
+  min-height: 673px;
+  background-position: 50% 50%;
+}
+
 .u-section-1 .u-container-layout-1 {
   padding: 30px 30px 30px 20px;
 }
@@ -128,6 +134,9 @@
   .u-section-1 .u-image-1 {
     min-height: 555px;
   }
+  .u-section-1 .u-image-2 {
+    min-height: 555px;
+  }
 
   .u-section-1 .u-layout-cell-2 {
     min-height: 819px;
@@ -156,6 +165,9 @@
   }
 
   .u-section-1 .u-image-1 {
+    min-height: 425px;
+  }
+  .u-section-1 .u-image-2 {
     min-height: 425px;
   }
 
@@ -188,6 +200,9 @@
   .u-section-1 .u-image-1 {
     min-height: 638px;
   }
+  .u-section-1 .u-image-2 {
+    min-height: 638px;
+  }
 
   .u-section-1 .u-container-layout-1 {
     padding-right: 10px;
@@ -205,6 +220,9 @@
   }
 
   .u-section-1 .u-image-1 {
+    min-height: 402px;
+  }
+  .u-section-1 .u-image-2 {
     min-height: 402px;
   }
 
