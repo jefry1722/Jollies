@@ -1,4 +1,10 @@
 from django.shortcuts import render
 
+from agrupaciones.models import Agrupacion
+from usuarios.models import Usuario
+
+
 def inicio(request):
-    return render(request,'index1.html')
+    agrupaciones = Agrupacion.objects.order_by('id')
+    usuarios = Usuario.objects.order_by('id')
+    return render(request, 'index1.html', {'numero_agrupaciones': len(agrupaciones), 'numero_usuarios': len(usuarios)})
