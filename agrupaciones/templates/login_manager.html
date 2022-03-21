@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="keywords" content="dinos quién eres antes de ingresar, Ingresar">
     <meta name="description" content="">
-    <meta name="page_type" content="np-template-header-footer-from-plugin">
     <title>Ingresar</title>
 
     <!-- Favicon -->
@@ -52,8 +51,9 @@
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Ubuntu:300,300i,400,400i,500,500i,700,700i">
     
-    
-   
+    <!--SweetAlert-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <meta property="og:title" content="Ingresar">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#478ac9">
@@ -137,6 +137,24 @@
     {% csrf_token %}
     </form>
     
+    <!--SweetAlert alerts-->
+    {%if swal_error_password%}
+    <script type="text/javascript">
+      swal({
+        title: "¡ERROR!",
+        text: "La contraseña es incorrecta",
+        icon: "error",
+      });
+    </script>
+    {%endif%}{%if swal_error_mail%}
+    <script type="text/javascript">
+      swal({
+        title: "¡ERROR!",
+        text: "El correo no se encuentra registrado",
+        icon: "error",
+      });
+    </script>
+    {%endif%}
     
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

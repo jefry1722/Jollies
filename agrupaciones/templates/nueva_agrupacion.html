@@ -3,9 +3,8 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
-    <meta name="keywords" content="Registro" />
+    <meta name="keywords" content="Agrupación" />
     <meta name="description" content="" />
-    <meta name="page_type" content="np-template-header-footer-from-plugin" />
     <base href="/">
     {%if editablePage%}
     <title>Editar</title>
@@ -275,6 +274,17 @@
         </div>
       </div>
     </section>
+
+    <!--SweetAlert alerts-->
+    {%if swal_error_mail%}
+    <script type="text/javascript">
+      swal({
+        title: "¡ERROR!",
+        text: "Correo ya registrado",
+        icon: "error",
+      });
+    </script>
+    {%endif%}
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <meta name="keywords" content="Registro" />
     <meta name="description" content="" />
-    <meta name="page_type" content="np-template-header-footer-from-plugin" />
     <title>Registrarse</title>
 
     <!-- Favicon -->
@@ -68,6 +67,8 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700"
     />
+    <!--SweetAlert-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </head>
   <body class="u-body">
     <div class="container-xxl position-relative p-0" id="home">
@@ -226,10 +227,11 @@
                       <label
                         for="agree-925e"
                         class="u-label u-text-body-alt-color"
-                        >I accept the&nbsp;<a
+                        >Acepto los&nbsp;<a
                           href="https://nicepage.com/c/slider-website-templates"
                           class="u-active-none u-border-none u-btn u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1"
-                          >Terms of Service</a
+                          target="_blank"
+                          >Terminos de servicio</a
                         >
                       </label>
                     </div>
@@ -252,7 +254,7 @@
                 </div>
                 <p class="u-align-left u-text u-text-2">
                   Ya tengo un usuario&nbsp;<a
-                    href="manager/login_manager"
+                    href="login_manager"
                     data-page-id="87814152"
                     class="u-active-none u-border-1 u-border-white u-btn u-button-link u-button-style u-hover-none u-none u-text-body-alt-color u-btn-3"
                     >Ingresar</a
@@ -264,6 +266,25 @@
         </div>
       </div>
     </section>
+
+    <!--SweetAlert alerts-->
+    {%if swal_error_password%}
+    <script type="text/javascript">
+      swal({
+        title: "¡ERROR!",
+        text: "Las contraseñas no coinciden",
+        icon: "error",
+      });
+    </script>
+    {%endif%}{%if swal_error_mail%}
+    <script type="text/javascript">
+      swal({
+        title: "¡ERROR!",
+        text: "Correo ya registrado",
+        icon: "error",
+      });
+    </script>
+    {%endif%}
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
-    editarAgrupacion, logout
+    editarAgrupacion, logout, subirMedia
 from web.views import inicio
 
 urlpatterns = [
@@ -29,5 +29,6 @@ urlpatterns = [
     path('menu_manager',menuManager,name='menu_manager'),
     path('renovate',renovateAccountDate,name='renovate'),
     path('editar_agrupacion/<int:id>',editarAgrupacion),
-    path('logout',logout)
+    path('logout',logout),
+    path('subir_media/<int:id>',subirMedia),
 ]

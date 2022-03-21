@@ -1,10 +1,15 @@
 from datetime import date, timedelta
 import calendar
+
+import cloudinary.uploader
 from werkzeug.security import generate_password_hash, check_password_hash
 from django.shortcuts import render, redirect, get_object_or_404
 
-from agrupaciones.models import Manager, Agrupacion, Genero
+from agrupaciones.models import Manager, Agrupacion, Genero, Media
 
+def validateManagerSession(request):
+    if "manager_id" not in request.session:
+        return redirect('index')
 
 def nuevoManager(request):
     if request.method == "POST":
@@ -15,7 +20,7 @@ def nuevoManager(request):
         confirmed_passwd = request.POST.get("passwd2")
 
         datosRecientes = {'nombre': nombre, 'apellido': apellido, 'correo': correo,
-                          'error_terminos': "Las contraseñas no coinciden"}
+                          'swal_error_password': True}
         if passwd != confirmed_passwd:
             return render(request, 'nuevo_manager.html', datosRecientes)
 
@@ -27,7 +32,7 @@ def nuevoManager(request):
         try:
             manager = Manager.objects.get(correo=correo)
             datosRecientes = {'nombre': nombre, 'apellido': apellido,
-                              'error_terminos': "El correo ya está registrado"}
+                              "swal_error_mail":True}
             return render(request, 'nuevo_manager.html', datosRecientes)
         except:
             manager = Manager(nombre=nombre, apellido=apellido, correo=correo, password=passwd_crypted,
@@ -40,6 +45,7 @@ def nuevoManager(request):
 
 
 def nuevaAgrupacion(request):
+    validateManagerSession(request)
     if request.method == 'POST':
         nombre = request.POST.get("nombre")
         correo = request.POST.get("correo")
@@ -60,7 +66,7 @@ def nuevaAgrupacion(request):
         try:
             agrupacion = Agrupacion.objects.get(correo=correo)
             datosRecientes = {'nombre': nombre, 'telefono': telefono, 'integrantes': integrantes,
-                              'error_terminos': "El correo ya se encuentra registrado"}
+                              'swal_error_mail': True}
             return render(request, 'nueva_agrupacion.html', datosRecientes)
         except:
             agrupacion = Agrupacion(nombre=nombre, correo=correo, telefono=telefono, descripcion=descripcion,
@@ -74,6 +80,7 @@ def nuevaAgrupacion(request):
 
 
 def editarAgrupacion(request, id):
+    validateManagerSession(request)
     if request.method == "POST":
         nombre = request.POST.get("nombre")
         telefono = request.POST.get("telefono")
@@ -98,6 +105,8 @@ def editarAgrupacion(request, id):
 
 
 def loginManager(request):
+    if "manager_id" in request.session:
+        return redirect('menu_manager')
     if request.method == "POST":
         correo = request.POST.get("correo")
         passwd = request.POST.get("passwd")
@@ -108,16 +117,14 @@ def loginManager(request):
                 if (manager.fecha_renovacion < date.today()):
                     return redirect('renovate')
                 return redirect('menu_manager')
-            else:
-                print("Contraseña incorrecta")
+            return render(request,'login_manager.html',{'swal_error_password': True})
         except:
-            print("No se encontró el correo")
+            return render(request,'login_manager.html',{'swal_error_mail': True})
     return render(request, 'login_manager.html')
 
 
 def menuManager(request):
-    if "manager_id" not in request.session:
-        return redirect('index')
+    validateManagerSession(request)
     manager = Manager.objects.get(id=request.session["manager_id"])
     agrupaciones = Agrupacion.objects.filter(manager=manager)
     return render(request, 'menu_manager.html', {'agrupaciones': agrupaciones})
@@ -141,3 +148,25 @@ def logout(request):
     if request.session.has_key("manager_id"):
         request.session.flush()
     return redirect('index')
+
+def subirMedia(request,id):
+    validateManagerSession(request)
+    agrupacion = get_object_or_404(Agrupacion, pk=id)
+    if request.method == "POST":
+        imagen=request.POST.get("image_base_64")
+        video=request.POST.get("video_to_upload")
+
+        media_por_agrupacion = Media.objects.filter(agrupacion=agrupacion)
+        if len(media_por_agrupacion) == 3:
+            return render(request, 'subir_media.html', {'swal_error': True})
+
+        if imagen is not None:
+            cloudinary_response=cloudinary.uploader.upload(imagen)
+            media=Media(tipo="imagen",url=cloudinary_response['secure_url'],agrupacion=agrupacion)
+            media.save()
+            return render(request, 'subir_media.html',{'swal_image_uploaded':True})
+        if video is not None and video != '':
+            media=Media(tipo="video",url=video,agrupacion=agrupacion)
+            media.save()
+            return render(request, 'subir_media.html', {'swal_video_uploaded': True})
+    return render(request,'subir_media.html')
