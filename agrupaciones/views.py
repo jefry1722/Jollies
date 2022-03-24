@@ -131,6 +131,7 @@ def menuManager(request):
 
 
 def renovateAccountDate(request):
+    validateManagerSession(request)
     if request.method == "POST":
         start_date = date.today()
         days_in_month = calendar.monthrange(start_date.year, start_date.month)[1]
@@ -140,8 +141,6 @@ def renovateAccountDate(request):
         manager.save()
         return redirect('login_manager')
 
-    if "manager_id" not in request.session:
-        return redirect('index')
     return render(request, 'renovate.html')
 
 def logout(request):
