@@ -72,13 +72,17 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700"
     />
+
+    <!--SweetAlert-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
   </head>
   <body class="u-body">
     <div class="container-xxl position-relative p-0" id="home">
       <nav
         class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0"
       >
-        <a href="/" class="navbar-brand p-0">
+        <a href="menu_manager" class="navbar-brand p-0">
           <img src="static/img/logo.png" alt="Logo" />
           <h1 class="m-0">JOLLIES</h1>
         </a>
@@ -210,7 +214,6 @@
                         name="descripcion"
                         value="{{descripcion}}"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
-                        required=""
                       />
                     </div>
                     {%if not editablePage%}
@@ -275,16 +278,24 @@
       </div>
     </section>
 
-    <!--SweetAlert alerts-->
-    {%if swal_error_mail%}
-    <script type="text/javascript">
-      swal({
-        title: "¡ERROR!",
-        text: "Correo ya registrado",
-        icon: "error",
-      });
-    </script>
-    {%endif%}
+     <!--SweetAlert alerts-->
+     {%if swal_error_password%}
+     <script type="text/javascript">
+       swal({
+         title: "¡ERROR!",
+         text: "Las contraseñas no coinciden",
+         icon: "error",
+       });
+     </script>
+     {%endif%}{%if swal_error_mail%}
+     <script type="text/javascript">
+       swal({
+         title: "¡ERROR!",
+         text: "Correo ya registrado",
+         icon: "error",
+       });
+     </script>
+     {%endif%}
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manager</title>
 
+    <base href="/" />
+
     <link href="static/img/logoico.ico" rel="icon" />
 
     <link rel="stylesheet" href="static/css/estilos.css" />
@@ -32,7 +34,7 @@
       </div>
 
       <div class="options__menu">
-        <a href="#" class="selected">
+        <a href="menu_manager">
           <div class="option">
             <i class="fas fa-home" title="Inicio"></i>
             <h4>Inicio</h4>
@@ -46,7 +48,7 @@
           </div>
         </a>
 
-        <a href="menu_manager/agrupaciones">
+        <a href="#" class="selected">
           <div class="option">
             <i class="far fa-file" title="Agrupaciones"></i>
             <h4>Agrupaciones</h4>
@@ -70,13 +72,19 @@
     </div>
 
     <main>
-      <div class="container m-2 contenedor">
-        <div class="datos">
-          <h1>Nombre: {{ manager.nombre }}</h1>
-          <h1>Apellido: {{ manager.apellido }}</h1>
-          <h1>Correo: {{ manager.correo }}</h1>
-          <h1>Fecha de renovación: {{ manager.fecha_renovacion }}</h1>
+      <div class="container">
+        {% for agrupacion in agrupaciones %}
+        <div class="agrupaciones">
+          <h1>{{agrupacion.nombre}}</h1>
+          <h1>Telefono: {{ agrupacion.telefono }}</h1>
+          <h1>Integrantes: {{ agrupacion.integrantes }}</h1>
+          <h1>Correo: {{ agrupacion.correo }}</h1>
+          {% if agrupacion.descripcion %}
+          <h1>Descripcion: {{ agrupacion.descripcion }}</h1>
+          {% endif %}
+          <h1>Genero: {{ agrupacion.genero.nombre }}</h1>
         </div>
+        {% endfor %}
       </div>
     </main>
 

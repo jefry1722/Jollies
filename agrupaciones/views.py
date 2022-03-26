@@ -46,6 +46,7 @@ def nuevoManager(request):
 
 def nuevaAgrupacion(request):
     validateManagerSession(request)
+    generos = Genero.objects.order_by('id')
     if request.method == 'POST':
         nombre = request.POST.get("nombre")
         correo = request.POST.get("correo")
@@ -57,15 +58,16 @@ def nuevaAgrupacion(request):
         passwd = request.POST.get("passwd")
         confirmed_passwd = request.POST.get("passwd2")
 
-        datosRecientes = {'nombre': nombre, 'telefono': telefono, 'correo': correo, 'integrantes': integrantes,
-                          'error_terminos': "Las contraseñas no coinciden"}
+        datosRecientes = {'nombre': nombre, 'telefono': telefono, 'correo': correo, 'integrantes': integrantes, 'generos' : generos,
+                          'swal_error_password': True}
+                          
         if passwd != confirmed_passwd:
             return render(request, 'nueva_agrupacion.html', datosRecientes)
         passwd_crypted = generate_password_hash(passwd, 'pbkdf2:sha256', 8)
 
         try:
             agrupacion = Agrupacion.objects.get(correo=correo)
-            datosRecientes = {'nombre': nombre, 'telefono': telefono, 'integrantes': integrantes,
+            datosRecientes = {'nombre': nombre, 'telefono': telefono, 'integrantes': integrantes, 'generos' : generos,
                               'swal_error_mail': True}
             return render(request, 'nueva_agrupacion.html', datosRecientes)
         except:
@@ -74,8 +76,6 @@ def nuevaAgrupacion(request):
                                     manager_id=int(request.session["manager_id"]), integrantes=integrantes)
             agrupacion.save()
             return redirect('menu_manager')
-    else:
-        generos = Genero.objects.order_by('id')
     return render(request, 'nueva_agrupacion.html', {'generos': generos})
 
 
@@ -126,9 +126,25 @@ def loginManager(request):
 def menuManager(request):
     validateManagerSession(request)
     manager = Manager.objects.get(id=request.session["manager_id"])
-    agrupaciones = Agrupacion.objects.filter(manager=manager)
-    return render(request, 'menu_manager.html', {'agrupaciones': agrupaciones})
+    return render(request, 'menu_manager.html', {'manager': manager})
 
+def menuManagerMedia(request):
+    validateManagerSession(request)
+    manager = Manager.objects.get(id=request.session["manager_id"])
+    agrupaciones = Agrupacion.objects.filter(manager=manager)
+    return render(request, 'menu_manager_media.html', {'agrupaciones': agrupaciones})
+
+def menuManagerAgrupaciones(request):
+    validateManagerSession(request)
+    manager = Manager.objects.get(id=request.session["manager_id"])
+    agrupaciones = Agrupacion.objects.filter(manager=manager)
+    return render(request, 'menu_manager_agrupaciones.html', {'agrupaciones': agrupaciones})
+
+def menuManagerEditar(request):
+    validateManagerSession(request)
+    manager = Manager.objects.get(id=request.session["manager_id"])
+    agrupaciones = Agrupacion.objects.filter(manager=manager)
+    return render(request, 'menu_manager_editar.html', {'agrupaciones': agrupaciones})
 
 def renovateAccountDate(request):
     if request.method == "POST":

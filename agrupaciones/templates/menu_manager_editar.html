@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manager</title>
 
+    <base href="/" />
+
     <link href="static/img/logoico.ico" rel="icon" />
 
     <link rel="stylesheet" href="static/css/estilos.css" />
@@ -32,7 +34,7 @@
       </div>
 
       <div class="options__menu">
-        <a href="#" class="selected">
+        <a href="menu_manager">
           <div class="option">
             <i class="fas fa-home" title="Inicio"></i>
             <h4>Inicio</h4>
@@ -60,7 +62,7 @@
           </div>
         </a>
 
-        <a href="menu_manager/editar">
+        <a href="#" class="selected">
           <div class="option">
             <i class="far fa-sticky-note" title="Editar Agrupaciones"></i>
             <h4>Editar Agrupaciones</h4>
@@ -70,13 +72,17 @@
     </div>
 
     <main>
-      <div class="container m-2 contenedor">
-        <div class="datos">
-          <h1>Nombre: {{ manager.nombre }}</h1>
-          <h1>Apellido: {{ manager.apellido }}</h1>
-          <h1>Correo: {{ manager.correo }}</h1>
-          <h1>Fecha de renovación: {{ manager.fecha_renovacion }}</h1>
+      <div class="container">
+        {% for agrupacion in agrupaciones %}
+        <div class="agrupaciones">
+          <h1>{{agrupacion.nombre}}</h1>
+          <a
+            class="list-group-item list-group-item-primary"
+            href="editar_agrupacion/{{agrupacion.id}}"
+            >Editar Agrupación</a
+          >
         </div>
+        {% endfor %}
       </div>
     </main>
 
