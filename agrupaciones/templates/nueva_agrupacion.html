@@ -122,7 +122,7 @@
                     {%if not editablePage%}
                     <div class="u-form-email u-form-group u-form-group-3">
                       <label
-                        for="email-e4cc"
+                        for="email"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                         wfd-invisible="true"
                         >Email</label
@@ -130,7 +130,7 @@
                       <input
                         type="email"
                         placeholder="Ingrese un correo valido"
-                        id="email-e4cc"
+                        id="email"
                         name="correo"
                         value="{{correo}}"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
@@ -140,7 +140,7 @@
                     {% endif %}
                     <div class="u-form-group u-form-name u-form-group-1">
                       <label
-                        for="name-e4cc"
+                        for="nombre"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                         wfd-invisible="true"
                         >Name</label
@@ -148,7 +148,7 @@
                       <input
                         type="text"
                         placeholder="Ingrese su Nombre"
-                        id="name-e4cc"
+                        id="nombre"
                         name="nombre"
                         value="{{nombre}}"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
@@ -157,14 +157,14 @@
                     </div>
                     <div class="u-form-group u-form-name u-form-group-2">
                       <label
-                        for="name-fb0f1"
+                        for="integrantes"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                         >Integrantes</label
                       >
                       <input
                         type="number"
                         placeholder="Ingrese el número de integrantes"
-                        id="name-fb0f1"
+                        id="integrantes"
                         name="integrantes"
                         value="{{integrantes}}"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
@@ -172,14 +172,14 @@
                       />
                     <div class="u-form-group u-form-name u-form-group-2">
                       <label
-                        for="name-fb0f2"
+                        for="telefono"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                         >Telefono</label
                       >
                       <input
                         type="text"
                         placeholder="Ingrese el teléfono"
-                        id="name-fb0f2"
+                        id="telefono"
                         name="telefono"
                         value="{{telefono}}"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
@@ -189,11 +189,11 @@
                     {%if not editablePage%}
                     <div class="u-form-group u-form-name u-form-group-2">
                       <label
-                        for="name-fb0f2"
+                        for="genero"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                         >Género</label
                       >
-                      <select name="genero" id="name-fb0f2" class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color">
+                      <select name="genero" id="genero" class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color">
                         <option value="">Seleccione el género</option>
                         {% for genero in generos %}
                         <option class="btn"value="{{genero.id}}">{{genero.nombre}}</option>
@@ -203,14 +203,14 @@
                     {%endif%}
                     <div class="u-form-group u-form-name u-form-group-2">
                       <label
-                        for="name-fb0f2"
+                        for="descripcion"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                         >Descripcion</label
                       >
                       <input
                         type="text"
                         placeholder="Ingrese la descripción (opcional)"
-                        id="name-fb0f2"
+                        id="descripcion"
                         name="descripcion"
                         value="{{descripcion}}"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
@@ -221,13 +221,13 @@
                       class="u-form-password u-form-group u-form-partition-factor-2 u-form-group-9"
                     >
                       <label
-                        for="text-1838"
+                        for="passwd1"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                       ></label>
                       <input
                         type="password"
                         placeholder="Ingrese una Contraseña"
-                        id="text-1838"
+                        id="passwd1"
                         name="passwd"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
                       />
@@ -236,13 +236,13 @@
                       class="u-form-password u-form-group u-form-partition-factor-2 u-form-group-10"
                     >
                       <label
-                        for="text-211a"
+                        for="passwd2"
                         class="u-form-control-hidden u-label u-text-body-alt-color"
                       ></label>
                       <input
                         type="password"
                         placeholder="Confirme su Contraseña"
-                        id="text-211a"
+                        id="passwd2"
                         name="passwd2"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
                       />
