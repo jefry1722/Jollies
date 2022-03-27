@@ -173,15 +173,15 @@ def subirMedia(request,id):
 
         media_por_agrupacion = Media.objects.filter(agrupacion=agrupacion)
         if len(media_por_agrupacion) == 3:
-            return render(request, 'subir_media.html', {'swal_error': True})
+            return render(request, 'menu_manager_media_subir.html', {'swal_error': True})
 
         if imagen is not None:
             cloudinary_response=cloudinary.uploader.upload(imagen)
             media=Media(tipo="imagen",url=cloudinary_response['secure_url'],agrupacion=agrupacion)
             media.save()
-            return render(request, 'subir_media.html',{'swal_image_uploaded':True})
+            return render(request, 'menu_manager_media_subir.html',{'swal_image_uploaded':True})
         if video is not None and video != '':
             media=Media(tipo="video",url=video,agrupacion=agrupacion)
             media.save()
-            return render(request, 'subir_media.html', {'swal_video_uploaded': True})
-    return render(request,'subir_media.html')
+            return render(request, 'menu_manager_media_subir.html', {'swal_video_uploaded': True})
+    return render(request,'menu_manager_media_subir.html')

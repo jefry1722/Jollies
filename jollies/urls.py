@@ -33,5 +33,5 @@ urlpatterns = [
     path('renovate',renovateAccountDate,name='renovate'),
     path('editar_agrupacion/<int:id>',editarAgrupacion),
     path('logout',logout),
-    path('subir_media/<int:id>',subirMedia),
+    path('menu_manager/media/subir/<int:id>',subirMedia),
 ]

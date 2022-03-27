@@ -7,4 +7,4 @@ from usuarios.models import Usuario
 def inicio(request):
     agrupaciones = Agrupacion.objects.order_by('id')
     usuarios = Usuario.objects.order_by('id')
-    return render(request, 'index1.html', {'numero_agrupaciones': len(agrupaciones), 'numero_usuarios': len(usuarios)})
+    return render(request, 'index.html', {'numero_agrupaciones': len(agrupaciones), 'numero_usuarios': len(usuarios)})
