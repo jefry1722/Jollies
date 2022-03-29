@@ -22,6 +22,7 @@ class Agrupacion(models.Model):
     genero = models.ForeignKey(Genero, on_delete=models.SET_NULL,null=True )
     password = models.CharField(max_length=255)
     descripcion = models.CharField(max_length=255,null=True)
+    precio = models.IntegerField()
 
 
 class Media(models.Model):

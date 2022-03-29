@@ -82,32 +82,44 @@
     </div>
 
     <main>
-      <div class="container">
-        <h1>Sube tus fotos</h1>
-        <label for="image_to_upload">Escoge tu foto (jpg, jpeg, png)</label>
-        <input
-          type="file"
-          id="image_to_upload"
-          name="image_to_upload"
-          accept=".jpg, .jpeg, .png"
-        />
-        <form method="POST" style="display: none" id="hidden_form">
-          {% csrf_token %}
-        </form>
-        <h1>Sube tus videos</h1>
-        <form method="POST">
-          <label for="video_to_upload">
-            Ingresa la URL de tu video (Youtube)
-          </label>
-          <input
-            type="text"
-            id="video_to_upload"
-            name="video_to_upload"
-            placeholder="Ej: www.youtube.com/..."
-          />
-          <button class="btn btn-warning" type="submit">Enviar</button>
-          {% csrf_token %}
-        </form>
+      <div class="container mt-5">
+        <div class="card m-2">
+          <div class="card-header">
+            <h1>Sube tus fotos<i class="fa-solid fa-camera m-2"></i></h1>
+          </div>
+          <div class="card-body">
+            <label for="image_to_upload">Escoge tu foto (jpg, jpeg, png)</label>
+            <input
+              type="file"
+              id="image_to_upload"
+              name="image_to_upload"
+              accept=".jpg, .jpeg, .png"
+            />
+            <form method="POST" style="display: none" id="hidden_form">
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
+        <div class="card m-2">
+          <div class="card-header">
+            <h1>Sube tus videos<i class="fa-solid fa-film m-2"></i></h1>
+          </div>
+          <div class="card-body">
+            <form method="POST">
+              <label for="video_to_upload">
+                Ingresa la URL de tu video (Youtube)
+              </label>
+              <input
+                type="text"
+                id="video_to_upload"
+                name="video_to_upload"
+                placeholder="Ej: www.youtube.com/..."
+              />
+              <button class="btn btn-warning" type="submit">Enviar</button>
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
       </div>
     </main>
 

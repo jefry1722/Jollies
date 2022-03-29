@@ -81,14 +81,21 @@
       <div class="container">
         {% for agrupacion in agrupaciones %}
         <div class="agrupaciones m-3">
-          <h1>{{agrupacion.nombre}}</h1>
-          <h1>Telefono: {{ agrupacion.telefono }}</h1>
-          <h1>Integrantes: {{ agrupacion.integrantes }}</h1>
-          <h1>Correo: {{ agrupacion.correo }}</h1>
-          {% if agrupacion.descripcion %}
-          <h1>Descripcion: {{ agrupacion.descripcion }}</h1>
-          {% endif %}
-          <h1>Genero: {{ agrupacion.genero.nombre }}</h1>
+          <div class="card">
+            <div class="card-header">
+              <h1>{{agrupacion.nombre}}</h1>
+            </div>
+            <div class="card-body">
+              <h4>Telefono: {{ agrupacion.telefono }}</h4>
+              <h4>Integrantes: {{ agrupacion.integrantes }}</h4>
+              <h4>Correo: {{ agrupacion.correo }}</h4>
+              {% if agrupacion.descripcion %}
+              <h4>Descripción: {{ agrupacion.descripcion }}</h4>
+              {% endif %}
+              <h4>Género: {{ agrupacion.genero.nombre }}</h4>
+              <h4>Precio: {{ agrupacion.precio }}</h4>
+            </div>
+          </div>
         </div>
         {% endfor %}
       </div>

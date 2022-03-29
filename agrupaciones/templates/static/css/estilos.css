@@ -35,6 +35,12 @@ header {
   background-position: 45% 50%;
 }
 
+.body_editar {
+  background-image: url("../img/editar.jpg");
+  min-height: 1000px;
+  background-position: 50% 50%;
+}
+
 .icon__menu {
   width: 50px;
   height: 100%;
@@ -177,13 +183,21 @@ a.selected {
   position: relative;
 }
 
-.subir_media {
-  position: absolute;
-  vertical-align: bottom;
-}
-
 .content {
   display: flex;
+}
+
+.body_manager {
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 0.01) 0%,
+    rgba(75, 9, 121, 0.07886904761904767) 48%,
+    rgba(0, 212, 255, 0.01) 100%
+  );
+}
+
+.card-header {
+  background-color: rgba(1, 119, 253, 0.568) !important;
 }
 
 /*Clases para usar en JavaScript*/

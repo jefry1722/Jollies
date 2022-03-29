@@ -21,7 +21,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body id="body">
+  <body id="body" class="body_manager">
     <header>
       <div class="icon__menu">
         <i class="fas fa-bars" id="btn_open"></i>
@@ -78,10 +78,15 @@
     <main>
       <div class="container m-2 contenedor">
         <div class="datos">
-          <h1>Nombre: {{ manager.nombre }}</h1>
-          <h1>Apellido: {{ manager.apellido }}</h1>
-          <h1>Correo: {{ manager.correo }}</h1>
-          <h1>Fecha de renovación: {{ manager.fecha_renovacion }}</h1>
+          <div class="card">
+            <div class="card-header"><h1>Información</h1></div>
+            <div class="card-body">
+              <h1>Nombre: {{ manager.nombre }}</h1>
+              <h1>Apellido: {{ manager.apellido }}</h1>
+              <h1>Correo: {{ manager.correo }}</h1>
+              <h1>Fecha de renovación: {{ manager.fecha_renovacion }}</h1>
+            </div>
+          </div>
         </div>
       </div>
     </main>

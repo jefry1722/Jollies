@@ -23,7 +23,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body id="body">
+  <body id="body" class="body_editar">
     <header>
       <div class="icon__menu">
         <i class="fas fa-bars" id="btn_open"></i>
@@ -80,13 +80,16 @@
     <main>
       <div class="container">
         {% for agrupacion in agrupaciones %}
-        <div class="agrupaciones">
-          <h1>{{agrupacion.nombre}}</h1>
+        <div class="agrupaciones m-3">
+          <div class="content">
+            <i class="fa-solid fa-drum m-3"></i>
+            <h1 class="m-3">{{agrupacion.nombre}}</h1>
+          </div>
           <a
             class="list-group-item list-group-item-primary"
             href="editar_agrupacion/{{agrupacion.id}}"
-            >Editar Agrupación</a
-          >
+            >Editar Agrupación <i class="fa-solid fa-file-pen m-1"></i
+          ></a>
         </div>
         {% endfor %}
       </div>

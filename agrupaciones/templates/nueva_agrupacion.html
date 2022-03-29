@@ -194,9 +194,9 @@
                         >Género</label
                       >
                       <select name="genero" id="genero" class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color">
-                        <option value="">Seleccione el género</option>
+                        <option class="list-group-item list-group-item-primary" value="0">Seleccione el género</option>
                         {% for genero in generos %}
-                        <option class="btn"value="{{genero.id}}">{{genero.nombre}}</option>
+                        <option class="list-group-item list-group-item-primary"value="{{genero.id}}">{{genero.nombre}}</option>
                         {% endfor %}
                       </select>
                     </div>
@@ -214,6 +214,22 @@
                         name="descripcion"
                         value="{{descripcion}}"
                         class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
+                      />
+                    </div>
+                    <div class="u-form-group u-form-name u-form-group-2">
+                      <label
+                        for="precio"
+                        class="u-form-control-hidden u-label u-text-body-alt-color"
+                        >Precio</label
+                      >
+                      <input
+                        type="number"
+                        placeholder="Ingrese el precio de contratación"
+                        id="precio"
+                        name="precio"
+                        value="{{precio}}"
+                        class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle u-text-body-alt-color"
+                        required=""
                       />
                     </div>
                     {%if not editablePage%}
