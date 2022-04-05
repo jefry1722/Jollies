@@ -9,12 +9,83 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <!-- Favicon -->
+    <link href="static/img/logoico.ico" rel="icon" />
+    <script
+      src="https://kit.fontawesome.com/41bcea2ae3.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Renovar fecha de cuenta</title>
   </head>
-  <body>
-    <h1>Haz click para renovar la fecha de tu cuenta</h1>
+  <body
+    class="container mt-5"
+    style="
+      background: linear-gradient(
+        90deg,
+        rgba(66, 148, 227, 1) 0%,
+        rgba(143, 18, 253, 1) 48%
+      );
+    "
+  >
+    <h1 class="m-5" style="color: white">
+      Renueva tu cuenta, no te pierdas los beneficios de Jollies
+    </h1>
     <form method="POST">
-      <button class="btn btn-danger">Renovar</button>
+      <div class="card">
+        <div class="card-header">
+          <h2>
+            Ingresa los datos de tu tarjeta de crédito
+            <i class="fa-brands fa-cc-visa" style="margin-left: 12px"></i>
+            <i class="fa-brands fa-cc-mastercard" style="margin-left: 12px"></i>
+            <i class="fa-brands fa-cc-amex" style="margin-left: 12px"></i>
+          </h2>
+        </div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="n_tarjeta">Número de la tarjeta</label>
+              <input
+                type="text"
+                class="form-control"
+                id="n_tarjeta"
+                placeholder="0000-0000-0000-0000"
+                required
+              />
+            </div>
+            <div class="form-group col">
+              <label for="n_titular">Nombre del titular</label>
+              <input
+                type="text"
+                class="form-control"
+                id="n_titular"
+                placeholder="José Francisco Caldas"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fecha_vencimiento">Fecha de vencimiento (MM/AA)</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fecha_vencimiento"
+              placeholder="12/26"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="codigo">Código de seguridad</label>
+            <input
+              type="text"
+              class="form-control"
+              id="codigo"
+              placeholder="123"
+              required
+            />
+          </div>
+        </div>
+        <button class="btn btn-danger" type="submit">Renovar</button>
+      </div>
       {% csrf_token %}
     </form>
   </body>

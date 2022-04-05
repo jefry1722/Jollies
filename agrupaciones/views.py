@@ -1,12 +1,15 @@
 from datetime import date, timedelta
 import calendar
-
+import re
 import cloudinary.uploader
 from werkzeug.security import generate_password_hash, check_password_hash
 from django.shortcuts import render, redirect, get_object_or_404
 
 from agrupaciones.models import Manager, Agrupacion, Genero, Media
 
+def embed_url(video_url):
+    regex = r"(?:https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)"
+    return re.sub(regex, r"https://www.youtube.com/embed/\1", video_url)
 
 def validateManagerSession(request):
     if "manager_id" not in request.session:
@@ -211,6 +214,7 @@ def subirMedia(request, id):
             media.save()
             return render(request, 'menu_manager_media_subir.html', {'swal_image_uploaded': True})
         if video is not None and video != '':
+            video=embed_url(video)
             media = Media(tipo="video", url=video, agrupacion=agrupacion)
             media.save()
             return render(request, 'menu_manager_media_subir.html', {'swal_video_uploaded': True})

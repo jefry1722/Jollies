@@ -18,6 +18,8 @@ from django.urls import path
 
 from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
     editarAgrupacion, logout, subirMedia, menuManagerMedia, menuManagerAgrupaciones, menuManagerEditar
+from contrataciones.views import contratacion
+from usuarios.views import verAgrupaciones, verGeneros, caracteristicasPorAgrupacion
 from web.views import inicio
 
 urlpatterns = [
@@ -34,4 +36,8 @@ urlpatterns = [
     path('editar_agrupacion/<int:id>',editarAgrupacion),
     path('logout',logout),
     path('menu_manager/media/subir/<int:id>',subirMedia),
+    path('agrupaciones/<int:id>',verAgrupaciones),
+    path('generos',verGeneros, name='generos'),
+    path('agrupacion/<int:id>',caracteristicasPorAgrupacion),
+    path('contratacion/<int:id>',contratacion),
 ]

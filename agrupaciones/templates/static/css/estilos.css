@@ -60,11 +60,11 @@ header {
 .menu__side {
   width: 85px;
   height: 100%;
+  background: rgb(66, 148, 227);
   background: linear-gradient(
-    322deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(75, 9, 121, 0.7511379551820728) 40%,
-    rgba(0, 212, 255, 1) 100%
+    180deg,
+    rgba(66, 148, 227, 1) 0%,
+    rgba(143, 18, 253, 1) 48%
   );
   position: fixed;
   top: 0;

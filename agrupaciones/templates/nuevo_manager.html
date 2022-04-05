@@ -89,7 +89,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <div class="navbar-nav mx-auto py-0">
-            <a href="/" class="nav-item nav-link active">Inicio</a>
+            <a href="/" class="nav-item nav-link">Inicio</a>
             <a href="nuevo_manager" class="nav-item nav-link">Registrarse</a>
             <a href="login_manager" class="nav-item nav-link">Iniciar Sesión</a>
           </div>
@@ -261,6 +261,7 @@
         title: "¡ERROR!",
         text: "Las contraseñas no coinciden",
         icon: "error",
+        closeOnClickOutside: false,
       });
     </script>
     {%endif%}{%if swal_error_mail%}
@@ -269,6 +270,7 @@
         title: "¡ERROR!",
         text: "Correo ya registrado",
         icon: "error",
+        closeOnClickOutside: false,
       });
     </script>
     {%endif%}

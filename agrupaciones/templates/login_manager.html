@@ -77,9 +77,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto py-0">
-              <a href="/" class="nav-item nav-link active">Inicio</a>
-              <a href="nuevo_manager" class="nav-item nav-link">Registrarse</a>
-              <a href="login_manager" class="nav-item nav-link">Iniciar Sesión</a>
+              <a href="/" class="nav-item nav-link"style="color: black !important;"><b>Inicio</b></a>
+              <a href="nuevo_manager" class="nav-item nav-link" style="color: black !important;"><b>Registrarse</b></a>
+              <a href="login_manager" class="nav-item nav-link"style="color: black !important;"><b>Iniciar Sesión</b></a>
             </div>
           </div>
         </nav>
@@ -131,6 +131,7 @@
         title: "¡ERROR!",
         text: "La contraseña es incorrecta",
         icon: "error",
+        closeOnClickOutside: false,
       });
     </script>
     {%endif%}{%if swal_error_mail%}
@@ -139,6 +140,7 @@
         title: "¡ERROR!",
         text: "El correo no se encuentra registrado",
         icon: "error",
+        closeOnClickOutside: false,
       });
     </script>
     {%endif%}
