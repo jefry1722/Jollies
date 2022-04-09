@@ -11,8 +11,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <!--SweetAlert-->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <title>Agrupaciones</title>
   </head>
   <body class="container mt-1">
@@ -65,7 +64,7 @@
       <div class="card-body">
         <h1>{{agrupacion.nombre}}</h1>
         <a href="/agrupacion/{{agrupacion.id}}">Características</a>
-        <a href="/contratacion/{{agrupacion.id}}">Ir a contratar</a>
+        <a href="/validar_correo/{{agrupacion.id}}">Ir a contratar</a>
       </div>
     </div>
     {%endfor%}

@@ -14,6 +14,21 @@
     <title>Validación de correo</title>
   </head>
   <body>
-    
+    <body>
+      <div class="container m-5">
+        <form method="POST">
+          <label for="correo"><h1>Digite su correo electrónico</h1></label>
+          <input
+            type="email"
+            placeholder="Ingresa tu correo electrónico"
+            name="correo"
+            id="correo"
+            required
+          />
+          <button class="btn btn-warning">Enviar</button>
+          {% csrf_token %}
+        </form>
+      </div>
+    </body>
   </body>
 </html>

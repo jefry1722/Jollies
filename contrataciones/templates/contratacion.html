@@ -11,20 +11,170 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <!--SweetAlert-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Contratacion</title>
   </head>
   <body>
-    <div class="container m-5">
+    <div class="m-5">
       <form method="POST">
-        <label for="correo"><h1>Digite su correo electrónico</h1></label>
+        {%if usuario%}
+        <label for="correo"><h1>Email</h1></label>
         <input
           type="email"
           placeholder="Ingresa tu correo electrónico"
           name="correo"
           id="correo"
           required
+          value="{{usuario.correo}}"
+          disabled
         />
-        <button class="btn btn-warning">Enviar</button>
+        <br />
+        <label for="nombre"><h1>Nombre</h1></label>
+        <input
+          type="nombre"
+          placeholder="Ingresa tu nombre"
+          name="nombre"
+          id="nombre"
+          required
+          value="{{usuario.nombre}}"
+          disabled
+        />
+        <br />
+        <label for="apellido"><h1>Apellido</h1></label>
+        <input
+          type="apellido"
+          placeholder="Ingresa tu apellido"
+          name="apellido"
+          id="apellido"
+          required
+          value="{{usuario.apellido}}"
+          disabled
+        />
+        <br />
+        <label for="telefono"><h1>Telefono</h1></label>
+        <input
+          type="telefono"
+          placeholder="Ingresa tu telefono"
+          name="telefono"
+          id="telefono"
+          required
+          value="{{usuario.telefono}}"
+          disabled
+        />
+        <br />
+        <label for="fecha"><h1>Fecha</h1></label>
+        <input
+          type="date"
+          placeholder="Ingresa la fecha"
+          name="fecha"
+          id="fecha"
+          required
+        />
+        <br />
+        <label for="hora"><h1>Hora</h1></label>
+        <input
+          type="time"
+          placeholder="Ingresa la hora"
+          name="hora"
+          id="hora"
+          required
+        />
+        <br />
+        <label for="tiempo"><h1>Tiempo</h1></label>
+        <input
+          type="number"
+          placeholder="Ingresa el tiempo"
+          name="tiempo"
+          id="tiempo"
+          required
+        />
+        <br />
+        <label for="direccion"><h1>Dirección</h1></label>
+        <input
+          type="text"
+          placeholder="Ingresa la direccion"
+          name="direccion"
+          id="direccion"
+          required
+        />
+        {%else%}
+        <label for="correo"><h1>Email</h1></label>
+        <input
+          type="email"
+          placeholder="Ingresa tu correo electrónico"
+          name="correo"
+          id="correo"
+          required
+          value="{{correo}}"
+          disabled
+        />
+        <br />
+        <label for="nombre"><h1>Nombre</h1></label>
+        <input
+          type="nombre"
+          placeholder="Ingresa tu nombre"
+          name="nombre"
+          id="nombre"
+          required
+        />
+        <br />
+        <label for="apellido"><h1>Apellido</h1></label>
+        <input
+          type="apellido"
+          placeholder="Ingresa tu apellido"
+          name="apellido"
+          id="apellido"
+          required
+        />
+        <br />
+        <label for="telefono"><h1>Telefono</h1></label>
+        <input
+          type="telefono"
+          placeholder="Ingresa tu telefono"
+          name="telefono"
+          id="telefono"
+          required
+        />
+        <br />
+        <label for="fecha"><h1>Fecha</h1></label>
+        <input
+          type="date"
+          placeholder="Ingresa la fecha"
+          name="fecha"
+          id="fecha"
+          required
+        />
+        <br />
+        <label for="hora"><h1>Hora</h1></label>
+        <input
+          type="time"
+          placeholder="Ingresa la hora"
+          name="hora"
+          id="hora"
+          required
+        />
+        <br />
+        <label for="tiempo"><h1>Tiempo</h1></label>
+        <input
+          type="number"
+          placeholder="Ingresa el tiempo"
+          name="tiempo"
+          id="tiempo"
+          required
+        />
+        <br />
+        <label for="direccion"><h1>Dirección</h1></label>
+        <input
+          type="text"
+          placeholder="Ingresa la direccion"
+          name="direccion"
+          id="direccion"
+          required
+        />
+        {%endif%}
+        <br />
+        <button class="btn btn-danger">Enviar</button>
         {% csrf_token %}
       </form>
     </div>

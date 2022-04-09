@@ -18,7 +18,7 @@ from django.urls import path
 
 from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
     editarAgrupacion, logout, subirMedia, menuManagerMedia, menuManagerAgrupaciones, menuManagerEditar
-from contrataciones.views import contratacion
+from contrataciones.views import validarCorreo, crearContratacion, realizarAbono
 from usuarios.views import verAgrupaciones, verGeneros, caracteristicasPorAgrupacion
 from web.views import inicio
 
@@ -26,18 +26,20 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio, name='index'),
     path('nuevo_manager', nuevoManager),
-    path('nueva_agrupacion',nuevaAgrupacion),
-    path('login_manager',loginManager,name='login_manager'),
-    path('menu_manager',menuManager,name='menu_manager'),
+    path('nueva_agrupacion', nuevaAgrupacion),
+    path('login_manager', loginManager, name='login_manager'),
+    path('menu_manager', menuManager, name='menu_manager'),
     path('menu_manager/media', menuManagerMedia),
     path('menu_manager/agrupaciones', menuManagerAgrupaciones),
     path('menu_manager/editar', menuManagerEditar),
-    path('renovate',renovateAccountDate,name='renovate'),
-    path('editar_agrupacion/<int:id>',editarAgrupacion),
-    path('logout',logout),
-    path('menu_manager/media/subir/<int:id>',subirMedia),
-    path('agrupaciones/<int:id>',verAgrupaciones),
-    path('generos',verGeneros, name='generos'),
-    path('agrupacion/<int:id>',caracteristicasPorAgrupacion),
-    path('contratacion/<int:id>',contratacion),
+    path('renovate', renovateAccountDate, name='renovate'),
+    path('editar_agrupacion/<int:id>', editarAgrupacion),
+    path('logout', logout),
+    path('menu_manager/media/subir/<int:id>', subirMedia),
+    path('agrupaciones/<int:id>', verAgrupaciones),
+    path('generos', verGeneros, name='generos'),
+    path('agrupacion/<int:id>', caracteristicasPorAgrupacion),
+    path('validar_correo/<int:id>', validarCorreo),
+    path('contratacion/<int:id>/<str:correo>', crearContratacion, name='contratacion'),
+    path('contratacion/abono/<int:id>', realizarAbono, name='abono'),
 ]
