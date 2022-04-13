@@ -80,61 +80,90 @@
 
     <main>
       <div class="container m-2 contenedor">
-        <form method="POST">
-          <label for="agrupacion">
-            <h1 style="color: white;">Selecciona la agrupación que requieras</h1></label
+        <div class="agrupaciones m-3" style="border: solid black 2px">
+          <div
+            class="content mb-2"
+            style="
+              border-bottom: solid black 2px;
+              justify-content: center;
+              background-color: rgb(179, 146, 255);
+            "
           >
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="agrupacion"
-              name="agrupacion"
-              placeholder="ej: Agrupación vallenata"
-              required
-            />
-            <div class="input-group-prepend">
-              <button class="btn btn-success" type="submit">
-                Buscar
-              </button>
-            </div>
+            <h1>{{agrupacion.nombre}}</h1>
           </div>
-          {% csrf_token %}
-        </form>
-      </div>
-      
-      <div class="container m-2 contenedor">
-        
-          <div class="agrupaciones m-3" style="border: solid black 2px;" >
-            <div class="content mb-2" style="border-bottom: solid black 2px; justify-content: center; background-color: rgb(179, 146, 255);"><h1>{{agrupacion.nombre}}</h1></div>
-            <div>
-                    <h2 class="list-group-item list-group-item-info subir_media" style="text-align: left;">Correo: {{agrupacion.correo}}</h2>
-                  <h2 class="list-group-item list-group-item-info subir_media" style="text-align: left;">Teléfono: {{agrupacion.telefono}}</h2>
-              <h2 class="list-group-item list-group-item-info subir_media" style="text-align: left;">Número de integrantes: {{agrupacion.integrantes}}</h2>
-              {% if agrupacion.descripcion %}
-              <h2 class="list-group-item list-group-item-info subir_media" style="text-align: left;">Descripción: {{agrupacion.descripcion}}</h2>
-              {% endif %}
-              <h3 class="list-group-item list-group-item-info subir_media" style="text-align: left;">
-                Costo por hora:<pre><small>$</small>{{precio}}</pre>
-              </h3>
+          <div>
+            <h3
+              class="list-group-item list-group-item-info"
+              style="text-align: left; display: flex"
+            >
+              Correo:&nbsp;
+              <pre class="mt-1">{{agrupacion.correo}}</pre>
+            </h3>
+            <h3
+              class="list-group-item list-group-item-info"
+              style="text-align: left; display: flex"
+            >
+              Teléfono:&nbsp;
+              <pre class="mt-1">{{agrupacion.telefono}}</pre>
+            </h3>
+            <h3
+              class="list-group-item list-group-item-info"
+              style="text-align: left; display: flex"
+            >
+              Número de integrantes:&nbsp;
+              <pre class="mt-1">{{agrupacion.integrantes}}</pre>
+            </h3>
+            {% if agrupacion.descripcion %}
+            <h3
+              class="list-group-item list-group-item-info"
+              style="text-align: left; display: flex"
+            >
+              Descripción:&nbsp;
+              <pre class="mt-1">{{agrupacion.descripcion}}</pre>
+            </h3>
+            {% endif %}
+            <h3
+              class="list-group-item list-group-item-info"
+              style="text-align: left; display: flex"
+            >
+              Costo por hora:&nbsp;
+              <pre class="mt-1"><small>$</small>{{precio}}</pre>
+            </h3>
+            <div class="col">
+              {%if agrupacionMedia%}
+              <h2>Fotos y videos</h2>
+              <div class="col">
+                {%for media in agrupacionMedia%} {%if media.tipo == "imagen"%}
+                <img
+                  src="{{media.url}}"
+                  width="350"
+                  alt="agrupacion"
+                  class="m-1 img-fluid rounded"
+                  style="border: 2px solid black"
+                />
+                {%endif%} {%endfor%}
+              </div>
+              <div class="col">
+                {%for media in agrupacionMedia%} {%if media.tipo == "video"%}
+                <iframe
+                  width="350"
+                  height="300"
+                  src="{{media.url}}"
+                  style="border: 2px solid black"
+                  class="m-1 rounded"
+                >
+                </iframe>
+                {%endif%} {%endfor%} {%endif%}
+              </div>
             </div>
+            <a
+              style="border-top: solid black 2px"
+              class="mt-1 list-group-item list-group-item-danger subir_media"
+              href="/validar_correo/{{agrupacion.id}}"
+              ><h5>Ir a contratar</h5></a
+            >
           </div>
-        
-      </div>
-
-      <div class="container">
-
-      {%for agrupacion in agrupaciones%}
-    <div class="agrupaciones m-3">
-      <div class="content">
-        <i class="fa-solid fa-indent m-3"></i>
-        <h1 class="m-3">{{agrupacion.nombre}}</h1>
-      </div>
-      <a style="border: solid black 2px;" class="list-group-item list-group-item-info subir_media" href="/agrupacion/{{agrupacion.id}}">Características</a>
-      <a style="border: solid black 2px;" class="mt-1 list-group-item list-group-item-danger subir_media" href="/validar_correo/{{agrupacion.id}}">Ir a contratar</a>
-    </div>
-    {%endfor%}
-      
+        </div>
       </div>
     </main>
 
@@ -161,7 +190,6 @@
       });
     </script>
     {%endif%}
-    
 
     <script src="static/js/script.js"></script>
   </body>

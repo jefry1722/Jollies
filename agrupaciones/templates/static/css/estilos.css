@@ -99,8 +99,12 @@ header {
 .menu__side_usuario {
   width: 85px;
   height: 100%;
-  background: rgb(63,94,251);
-  background: linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(252,108,70,1) 100%); 
+  background: rgb(63, 94, 251);
+  background: linear-gradient(
+    90deg,
+    rgba(63, 94, 251, 1) 0%,
+    rgba(252, 108, 70, 1) 100%
+  );
   position: fixed;
   top: 0;
   left: 0;

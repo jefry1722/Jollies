@@ -37,7 +37,8 @@ def crearContratacion(request, id, correo):
             usuario.save()
             contratacion = Contratacion(fecha=fecha, hora=hora, tiempo=tiempo, direccion=direccion,
                                         agrupacion=agrupacion,
-                                        usuario=usuario, estado="pendiente abono", precio=500000)
+                                        usuario=usuario, estado="pendiente abono",
+                                        precio=agrupacion.precio * int(tiempo))
             contratacion.save()
         return redirect('abono', id=contratacion.id)
     try:
@@ -49,7 +50,7 @@ def crearContratacion(request, id, correo):
 
 def realizarAbono(request, id):
     contratacion = Contratacion.objects.get(id=id)
-    abono = contratacion.precio * contratacion.tiempo * 0.1
+    abono = contratacion.precio * 0.1
     precio = "{:,}".format(abono).replace(",", ".")
     if request.method == 'POST':
         transactionDate = date.today()

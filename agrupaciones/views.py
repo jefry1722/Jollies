@@ -7,12 +7,20 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from agrupaciones.models import Manager, Agrupacion, Genero, Media
 
+
 def embed_url(video_url):
     regex = r"(?:https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)"
     return re.sub(regex, r"https://www.youtube.com/embed/\1", video_url)
 
+
 def validateManagerSession(request):
     if "manager_id" not in request.session:
+        return False
+    return True
+
+
+def validateAgrupacionSession(request):
+    if "agrupacion_id" not in request.session:
         return False
     return True
 
@@ -125,19 +133,35 @@ def editarAgrupacion(request, id):
 def loginManager(request):
     if "manager_id" in request.session:
         return redirect('menu_manager')
+    if "agrupacion_id" in request.session:
+        return redirect('menu_agrupacion')
+
     if request.method == "POST":
         correo = request.POST.get("correo")
         passwd = request.POST.get("passwd")
-        try:
-            manager = Manager.objects.get(correo=correo)
-            if (check_password_hash(manager.password, passwd)):
-                request.session["manager_id"] = str(manager.id)
-                if (manager.fecha_renovacion < date.today()):
-                    return redirect('renovate')
-                return redirect('menu_manager')
-            return render(request, 'login_manager.html', {'swal_error_password': True})
-        except:
-            return render(request, 'login_manager.html', {'swal_error_mail': True})
+        usuario = request.POST.get("usuario")
+
+        if usuario == 'manager':
+            try:
+                manager = Manager.objects.get(correo=correo)
+                if (check_password_hash(manager.password, passwd)):
+                    request.session["manager_id"] = str(manager.id)
+                    if (manager.fecha_renovacion < date.today()):
+                        return redirect('renovate')
+                    return redirect('menu_manager')
+                return render(request, 'login_manager.html', {'swal_error_password': True})
+            except:
+                return render(request, 'login_manager.html', {'swal_error_mail': True})
+
+        if usuario == 'agrupacion':
+            try:
+                agrupacion = Agrupacion.objects.get(correo=correo)
+                if (check_password_hash(agrupacion.password, passwd)):
+                    request.session["agrupacion_id"] = str(agrupacion.id)
+                    return redirect('menu_agrupacion')
+                return render(request, 'login_manager.html', {'swal_error_password': True})
+            except:
+                return render(request, 'login_manager.html', {'swal_error_mail': True})
     return render(request, 'login_manager.html')
 
 
@@ -190,6 +214,8 @@ def renovateAccountDate(request):
 def logout(request):
     if request.session.has_key("manager_id"):
         request.session.flush()
+    if request.session.has_key("agrupacion_id"):
+        request.session.flush()
     return redirect('index')
 
 
@@ -214,8 +240,12 @@ def subirMedia(request, id):
             media.save()
             return render(request, 'menu_manager_media_subir.html', {'swal_image_uploaded': True})
         if video is not None and video != '':
-            video=embed_url(video)
+            video = embed_url(video)
             media = Media(tipo="video", url=video, agrupacion=agrupacion)
             media.save()
             return render(request, 'menu_manager_media_subir.html', {'swal_video_uploaded': True})
     return render(request, 'menu_manager_media_subir.html')
+
+
+def menuAgrupacion(request):
+    return render(request, 'menu_agrupacion.html')
