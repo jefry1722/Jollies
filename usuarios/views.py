@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from agrupaciones.models import Agrupacion, Genero, Media
+from contrataciones.models import Contratacion
+from datetime import date, datetime, timedelta
+
+from usuarios.models import Usuario
 
 
 def verAgrupaciones(request, id):
@@ -11,7 +15,8 @@ def verAgrupaciones(request, id):
         agrupacioneFiltradas = Agrupacion.objects.filter(nombre__icontains=agrupacion, genero_id=id)
         if len(agrupacioneFiltradas) > 0:
             return render(request, 'menu_usuario_agrupaciones.html', {'agrupaciones': agrupacioneFiltradas})
-        return render(request, 'menu_usuario_agrupaciones.html', {'agrupaciones': agrupaciones, 'swal_error_agrupacion': True})
+        return render(request, 'menu_usuario_agrupaciones.html',
+                      {'agrupaciones': agrupaciones, 'swal_error_agrupacion': True})
     return render(request, 'menu_usuario_agrupaciones.html', {'agrupaciones': agrupaciones})
 
 
@@ -31,10 +36,51 @@ def caracteristicasPorAgrupacion(request, id):
         agrupacion = get_object_or_404(Agrupacion, pk=id)
         precio = "{:,}".format(agrupacion.precio).replace(",", ".")
         agrupacionMedia = Media.objects.filter(agrupacion_id=id)
+        contrataciones = Contratacion.objects.filter(agrupacion_id=id, fecha__gte=date.today())
         return render(request, 'menu_usuario_caracteristicas.html',
-                      {'agrupacion': agrupacion, 'precio': precio, 'agrupacionMedia': agrupacionMedia})
+                      {'agrupacion': agrupacion, 'precio': precio, 'agrupacionMedia': agrupacionMedia,
+                       'contrataciones': contrataciones})
     except:
         return redirect('generos')
 
-def verMenuUsuarios(request):
-    return render(request, 'menu_usuario_agrupaciones.html')
+
+def validarCorreoParaContrataciones(request):
+    if request.method == 'POST':
+        correo = request.POST.get("correo")
+        return redirect('historial_usuario', correo=correo)
+    return render(request, 'validacion_correo_historial.html')
+
+
+def historialDeContrataciones(request, correo):
+    try:
+        usuario = Usuario.objects.get(correo=correo)
+        contrataciones = Contratacion.objects.filter(usuario=usuario)
+        return render(request, 'menu_usuario_contrataciones.html',
+                      {'usuario': usuario, 'contrataciones': contrataciones, 'fecha_actual': date.today(),
+                       'hora_actual': (datetime.now() + timedelta(hours=2)).strftime("%H:%M")})
+    except:
+        return render(request, 'menu_usuario_contrataciones.html', {'swal_error_usuario': True})
+
+
+def cancelarContratacion(request, id_usuario, id_contratacion):
+    try:
+        contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario)
+        contratacion.estado = "cancelado"
+        contratacion.save()
+        return redirect('index')
+    except:
+        return redirect('index')
+
+
+def retroalimentarAgrupacion(request, id):
+    if request.method == 'POST':
+        contratacion = Contratacion.objects.get(id=id)
+        rating = request.POST.get('rate')
+        comentario = request.POST.get('comentario')
+        if rating is not None or rating != "":
+            contratacion.rating = int(rating)
+        if comentario is not None or comentario != "":
+            contratacion.calificacion = comentario
+        contratacion.save()
+        return redirect('index')
+    return render(request, 'menu_usuario_retroalimentacion.html')

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -82,7 +82,9 @@
       <div class="container m-2 contenedor">
         <form method="POST">
           <label for="agrupacion">
-            <h1 style="color: white;">Selecciona la agrupación que requieras</h1></label
+            <h1 style="color: white">
+              Selecciona la agrupación que requieras
+            </h1></label
           >
           <div class="input-group mb-3">
             <input
@@ -94,9 +96,7 @@
               required
             />
             <div class="input-group-prepend">
-              <button class="btn btn-success" type="submit">
-                Buscar
-              </button>
+              <button class="btn btn-success" type="submit">Buscar</button>
             </div>
           </div>
           {% csrf_token %}
@@ -104,18 +104,26 @@
       </div>
 
       <div class="container">
-
-      {%for agrupacion in agrupaciones%}
-    <div class="agrupaciones m-3">
-      <div class="content">
-        <i class="fa-solid fa-indent m-3"></i>
-        <h1 class="m-3">{{agrupacion.nombre}}</h1>
-      </div>
-      <a style="border: solid black 2px;" class="list-group-item list-group-item-info subir_media" href="/agrupacion/{{agrupacion.id}}">Características</a>
-      <a style="border: solid black 2px;" class="mt-1 list-group-item list-group-item-danger subir_media" href="/validar_correo/{{agrupacion.id}}">Ir a contratar</a>
-    </div>
-    {%endfor%}
-      
+        {%for agrupacion in agrupaciones%}
+        <div class="agrupaciones m-3">
+          <div class="content">
+            <i class="fa-solid fa-indent m-3"></i>
+            <h1 class="m-3">{{agrupacion.nombre}}</h1>
+          </div>
+          <a
+            style="border: solid black 2px"
+            class="list-group-item list-group-item-info subir_media"
+            href="/agrupacion/{{agrupacion.id}}"
+            >Características</a
+          >
+          <a
+            style="border: solid black 2px"
+            class="mt-1 list-group-item list-group-item-danger subir_media"
+            href="/validar_correo/{{agrupacion.id}}"
+            >Ir a contratar</a
+          >
+        </div>
+        {%endfor%}
       </div>
     </main>
 
@@ -137,12 +145,11 @@
         closeOnClickOutside: false,
       }).then((ok) => {
         if (ok) {
-          window.location.href = "/generos";
+          window.history.back();
         }
       });
     </script>
     {%endif%}
-    
 
     <script src="static/js/script.js"></script>
   </body>

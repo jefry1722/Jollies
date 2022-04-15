@@ -8,6 +8,8 @@
 
     <link href="static/img/logoico.ico" rel="icon" />
 
+    <base href="/" />
+
     <link rel="stylesheet" href="static/css/estilos.css" />
     <!--Boostrap-->
     <link
@@ -25,7 +27,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body id="body" class="body_genero">
+  <body id="body" class="body_caracteristicas">
     <header>
       <div class="icon__menu">
         <i class="fas fa-bars" id="btn_open"></i>
@@ -77,57 +79,57 @@
     </div>
 
     <main>
-      <div class="container m-2 contenedor">
-        <form method="POST">
-          <label style="color: white" for="genero">
-            <h1>Filtra por tu género favorito</h1></label
-          >
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="genero"
-              name="genero"
-              placeholder="ej: Ranchera"
-            />
-            <div class="input-group-prepend">
-              <button
-                class="btn btn-secondary"
-                style="border: solid black 2px"
-                type="submit"
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-          {% csrf_token %}
-        </form>
-      </div>
-
       <div class="container">
-        {%for genero in generos%}
+        <h1>Hola {{usuario.nombre}}, este es tu historial de contrataciones</h1>
+        {% for contratacion in contrataciones %}
         <div class="agrupaciones m-3">
           <div class="content">
-            <i class="m-3 fa-solid fa-sliders"></i>
-            <h1 class="m-3">{{genero.nombre}}</h1>
+            <i class="fa-solid fa-clock-rotate-left m-3"></i>
+            <h2 class="m-3">{{contratacion.agrupacion.nombre}}</h2>
+            <h2 class="m-3">
+              {{contratacion.fecha|date:'d-m-Y'}} {{contratacion.hora}}
+            </h2>
           </div>
+          <div class="content" style="color: rgb(239, 155, 20)">
+            <h2>&nbsp;Estado: {{contratacion.estado|capfirst}}</h2>
+          </div>
+          {%if contratacion.fecha == fecha_actual and contratacion.hora < hora_actual or contratacion.estado == "cancelado" %}
+            {%if contratacion.estado != "completado"%}
+                <pre class="list-group-item list-group-item-success subir_media">
+                    No puedes editar ni cancelar esta contratación</pre>
+            {%endif%}
+          {%else%}
           <a
-            class="list-group-item list-group-item-warning subir_media"
-            href="agrupaciones/{{genero.id}}"
-            >Ver agrupaciones</a
-          >
+            class="list-group-item list-group-item-primary subir_media"
+            href="menu_manager/media/subir/{{agrupacion.id}}"
+            >Editar contratación<i class="fa-solid fa-square-pen"></i></a>
+          <a
+            class="list-group-item list-group-item-danger subir_media"
+            href="cancelar_contratacion/{{usuario.id}}/{{contratacion.id}}"
+            >Cancelar contratación<i class="fa-solid fa-ban"></i></a>
+          {%endif%}
+          {%if contratacion.estado == "completado" and not contratacion.rating%}
+            <a
+                class="list-group-item list-group-item-warning subir_media"
+                href="retroalimentar_agrupacion/{{contratacion.id}}"
+                >Retroalimentar agrupación<i class="fa-solid fa-comments"></i></a>
+          {%endif%}
         </div>
-        {%endfor%}
+        {% endfor %}
       </div>
     </main>
 
-    {%if swal_error_generos%}
+    {%if swal_error_usuario%}
     <script type="text/javascript">
       swal({
-        title: "¡LO SENTIMOS!",
-        text: "No hemos encontrado el género que buscabas",
+        title: "¡AÚN NO TIENES CONTRATACIONES!",
+        text: "Dirígete a la pestaña de categorias para ver nuestros géneros y empezar tu contratación",
         icon: "error",
         closeOnClickOutside: false,
+      }).then((ok) => {
+        if (ok) {
+          window.location.href = "/";
+        }
       });
     </script>
     {%endif%}

@@ -41,11 +41,13 @@ def crearContratacion(request, id, correo):
                                         precio=agrupacion.precio * int(tiempo))
             contratacion.save()
         return redirect('abono', id=contratacion.id)
+
+    fecha_actual = date.today()
     try:
         usuario = Usuario.objects.get(correo=correo)
-        return render(request, 'contratacion.html', {'usuario': usuario})
+        return render(request, 'contratacion.html', {'usuario': usuario, 'fecha_actual': fecha_actual.__str__()})
     except:
-        return render(request, 'contratacion.html', {'correo': correo})
+        return render(request, 'contratacion.html', {'correo': correo, 'fecha_actual': fecha_actual.__str__()})
 
 
 def realizarAbono(request, id):
