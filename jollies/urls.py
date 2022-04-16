@@ -18,7 +18,7 @@ from django.urls import path
 
 from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
     editarAgrupacion, logout, subirMedia, menuManagerMedia, menuManagerAgrupaciones, menuManagerEditar, menuAgrupacion
-from contrataciones.views import validarCorreo, crearContratacion, realizarAbono
+from contrataciones.views import validarCorreo, crearContratacion, realizarAbono, editarContratacion
 from usuarios.views import verAgrupaciones, verGeneros, caracteristicasPorAgrupacion, validarCorreoParaContrataciones, \
     historialDeContrataciones, cancelarContratacion, retroalimentarAgrupacion
 from web.views import inicio
@@ -46,6 +46,7 @@ urlpatterns = [
     path('validar_correo_historial', validarCorreoParaContrataciones),
     path('historial/<str:correo>', historialDeContrataciones, name='historial_usuario'),
     path('cancelar_contratacion/<int:id_usuario>/<int:id_contratacion>', cancelarContratacion),
-    path('retroalimentar_agrupacion/<int:id>', retroalimentarAgrupacion),
+    path('editar_contratacion/<int:id_usuario>/<int:id_contratacion>', editarContratacion),
+    path('retroalimentar_agrupacion/<int:id_usuario>/<int:id_contratacion>', retroalimentarAgrupacion),
     path('menu_agrupacion', menuAgrupacion, name='menu_agrupacion'),
 ]

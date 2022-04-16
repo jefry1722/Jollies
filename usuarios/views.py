@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from agrupaciones.models import Agrupacion, Genero, Media
 from contrataciones.models import Contratacion
 from datetime import date, datetime, timedelta
+from django.db.models import Q
 
 from usuarios.models import Usuario
 
@@ -36,7 +37,8 @@ def caracteristicasPorAgrupacion(request, id):
         agrupacion = get_object_or_404(Agrupacion, pk=id)
         precio = "{:,}".format(agrupacion.precio).replace(",", ".")
         agrupacionMedia = Media.objects.filter(agrupacion_id=id)
-        contrataciones = Contratacion.objects.filter(agrupacion_id=id, fecha__gte=date.today())
+        contrataciones = Contratacion.objects.filter(~Q(estado__in=["cancelado", "completado"]), agrupacion_id=id,
+                                                     fecha__gte=date.today())
         return render(request, 'menu_usuario_caracteristicas.html',
                       {'agrupacion': agrupacion, 'precio': precio, 'agrupacionMedia': agrupacionMedia,
                        'contrataciones': contrataciones})
@@ -72,15 +74,18 @@ def cancelarContratacion(request, id_usuario, id_contratacion):
         return redirect('index')
 
 
-def retroalimentarAgrupacion(request, id):
-    if request.method == 'POST':
-        contratacion = Contratacion.objects.get(id=id)
-        rating = request.POST.get('rate')
-        comentario = request.POST.get('comentario')
-        if rating is not None or rating != "":
-            contratacion.rating = int(rating)
-        if comentario is not None or comentario != "":
-            contratacion.calificacion = comentario
-        contratacion.save()
+def retroalimentarAgrupacion(request, id_usuario, id_contratacion):
+    try:
+        contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario, estado="completado")
+        if request.method == 'POST':
+            rating = request.POST.get('rate')
+            comentario = request.POST.get('comentario')
+            if rating is not None or rating != "":
+                contratacion.rating = int(rating)
+            if comentario is not None or comentario != "":
+                contratacion.calificacion = comentario
+            contratacion.save()
+            return redirect('index')
+        return render(request, 'menu_usuario_retroalimentacion.html')
+    except:
         return redirect('index')
-    return render(request, 'menu_usuario_retroalimentacion.html')

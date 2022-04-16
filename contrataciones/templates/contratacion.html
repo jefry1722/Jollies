@@ -70,6 +70,7 @@
           min="{{fecha_actual}}"
           name="fecha"
           id="fecha"
+          value="{{contratacion.fecha|date:'Y-m-d'}}"
           required
         />
         <br />
@@ -80,6 +81,7 @@
           name="hora"
           id="hora"
           required
+          value="{{contratacion.hora}}"
         />
         <br />
         <label for="tiempo"><h1>Tiempo</h1></label>
@@ -89,6 +91,7 @@
           name="tiempo"
           id="tiempo"
           required
+          value="{{contratacion.tiempo}}"
         />
         <br />
         <label for="direccion"><h1>Dirección</h1></label>
@@ -98,6 +101,7 @@
           name="direccion"
           id="direccion"
           required
+          value="{{contratacion.direccion}}"
         />
         {%else%}
         <label for="correo"><h1>Email</h1></label>
@@ -180,5 +184,25 @@
         {% csrf_token %}
       </form>
     </div>
+
+    {%if swal_error_fecha%}
+    <script type="text/javascript">
+      swal({
+        title: "¡LO SENTIMOS, NO PUDIMOS TERMINAR TU CONTRATACIÓN!",
+        text: "Debes de tener escoger un horario con mínimo 3 horas antes de la contratación, elije otro horario",
+        icon: "error",
+        closeOnClickOutside: false,
+      });
+    </script>
+    {%endif%} {%if swal_error_fecha_contratacion%}
+    <script type="text/javascript">
+      swal({
+        title: "¡LO SENTIMOS, NO PUDIMOS TERMINAR TU CONTRATACIÓN!",
+        text: "La agrupación tiene una contratación en un lapso de 1 hora y 30 minutos a la fecha que escogiste, elige otro horario",
+        icon: "error",
+        closeOnClickOutside: false,
+      });
+    </script>
+    {%endif%}
   </body>
 </html>
