@@ -64,16 +64,6 @@ def historialDeContrataciones(request, correo):
         return render(request, 'menu_usuario_contrataciones.html', {'swal_error_usuario': True})
 
 
-def cancelarContratacion(request, id_usuario, id_contratacion):
-    try:
-        contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario)
-        contratacion.estado = "cancelado"
-        contratacion.save()
-        return redirect('index')
-    except:
-        return redirect('index')
-
-
 def retroalimentarAgrupacion(request, id_usuario, id_contratacion):
     try:
         contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario, estado="completado")

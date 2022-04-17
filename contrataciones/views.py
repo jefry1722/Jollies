@@ -76,6 +76,16 @@ def crearContratacion(request, id, correo):
                        'swal_error_fecha_contratacion': swal_error_fecha_contratacion})
 
 
+def cancelarContratacion(request, id_usuario, id_contratacion):
+    try:
+        contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario)
+        contratacion.estado = "cancelado"
+        contratacion.save()
+        return redirect('index')
+    except:
+        return redirect('index')
+
+
 def editarContratacion(request, id_usuario, id_contratacion):
     fecha_actual = date.today()
     hora_actual_mas_3_horas = (datetime.now() + timedelta(hours=3)).strftime("%H:%M")

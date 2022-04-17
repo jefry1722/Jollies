@@ -18,9 +18,10 @@ from django.urls import path
 
 from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
     editarAgrupacion, logout, subirMedia, menuManagerMedia, menuManagerAgrupaciones, menuManagerEditar, menuAgrupacion
-from contrataciones.views import validarCorreo, crearContratacion, realizarAbono, editarContratacion
+from contrataciones.views import validarCorreo, crearContratacion, realizarAbono, editarContratacion, \
+    cancelarContratacion
 from usuarios.views import verAgrupaciones, verGeneros, caracteristicasPorAgrupacion, validarCorreoParaContrataciones, \
-    historialDeContrataciones, cancelarContratacion, retroalimentarAgrupacion
+    historialDeContrataciones, retroalimentarAgrupacion
 from web.views import inicio
 
 urlpatterns = [
