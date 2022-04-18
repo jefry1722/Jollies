@@ -50,7 +50,7 @@ def validarCorreoParaContrataciones(request):
     if request.method == 'POST':
         correo = request.POST.get("correo")
         return redirect('historial_usuario', correo=correo)
-    return render(request, 'validacion_correo_historial.html')
+    return render(request, 'validacion_correo.html')
 
 
 def historialDeContrataciones(request, correo):
