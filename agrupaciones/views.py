@@ -2,10 +2,13 @@ from datetime import date, timedelta
 import calendar
 import re
 import cloudinary.uploader
+from django.db.models import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from django.shortcuts import render, redirect, get_object_or_404
 
 from agrupaciones.models import Manager, Agrupacion, Genero, Media
+from agrupaciones.utils import enviarCorreo
+from contrataciones.models import Contratacion
 
 
 def embed_url(video_url):
@@ -248,4 +251,55 @@ def subirMedia(request, id):
 
 
 def menuAgrupacion(request):
-    return render(request, 'menu_agrupacion.html')
+    if not validateAgrupacionSession(request):
+        return redirect('index')
+    agrupacion = Agrupacion.objects.get(id=request.session["agrupacion_id"])
+    first = str(agrupacion.telefono)[0:3]
+    second = str(agrupacion.telefono)[3:6]
+    third = str(agrupacion.telefono)[6:10]
+    phone = first + '-' + second + '-' + third
+    precio = "{:,}".format(agrupacion.precio).replace(",", ".")
+    return render(request, 'menu_agrupacion.html', {'agrupacion': agrupacion, 'telefono': phone, 'precio': precio})
+
+
+def verSolicitudesAgrupacion(request):
+    if not validateAgrupacionSession(request):
+        return redirect('index')
+    agrupacion = Agrupacion.objects.get(id=request.session["agrupacion_id"])
+    contrataciones = Contratacion.objects.filter(agrupacion=agrupacion)
+    return render(request, 'menu_agrupacion_solicitudes.html', {'contrataciones': contrataciones})
+
+
+def aprobarContratacion(request, id):
+    if not validateAgrupacionSession(request):
+        return redirect('index')
+    try:
+        contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
+        contratacion.estado = "aprobado"
+        contratacion.save()
+        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha aprobado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion
+        enviarCorreo(contratacion.usuario.correo, "SE HA APROBADO TU CONTRATACIÓN", mensaje)
+        return redirect('solicitudes_agrupacion')
+    except:
+        return redirect('index')
+
+
+def rechazarContratacion(request, id):
+    if not validateAgrupacionSession(request):
+        return redirect('index')
+    try:
+        contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
+        contratacion.estado = "rechazado"
+        contratacion.save()
+        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha rechazado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion
+        enviarCorreo(contratacion.usuario.correo, "SE HA RECHAZADO TU CONTRATACIÓN", mensaje)
+        return redirect('solicitudes_agrupacion')
+    except:
+        return redirect('index')
+
+
+def verRetroalimentaciones(request):
+    if not validateAgrupacionSession(request):
+        return redirect('index')
+    contrataciones = Contratacion.objects.filter(rating__isnull=False,agrupacion_id=request.session["agrupacion_id"])
+    return render(request, 'menu_manager_retroalimentaciones.html', {'contrataciones': contrataciones})

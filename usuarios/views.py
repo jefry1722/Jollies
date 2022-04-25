@@ -39,9 +39,13 @@ def caracteristicasPorAgrupacion(request, id):
         agrupacionMedia = Media.objects.filter(agrupacion_id=id)
         contrataciones = Contratacion.objects.filter(~Q(estado__in=["cancelado", "completado"]), agrupacion_id=id,
                                                      fecha__gte=date.today())
+        first = str(agrupacion.telefono)[0:3]
+        second = str(agrupacion.telefono)[3:6]
+        third = str(agrupacion.telefono)[6:10]
+        phone=first + '-' + second + '-' + third
         return render(request, 'menu_usuario_caracteristicas.html',
                       {'agrupacion': agrupacion, 'precio': precio, 'agrupacionMedia': agrupacionMedia,
-                       'contrataciones': contrataciones})
+                       'contrataciones': contrataciones,'telefono':phone})
     except:
         return redirect('generos')
 

@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 
 from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
-    editarAgrupacion, logout, subirMedia, menuManagerMedia, menuManagerAgrupaciones, menuManagerEditar, menuAgrupacion
+    editarAgrupacion, logout, subirMedia, menuManagerMedia, menuManagerAgrupaciones, menuManagerEditar, menuAgrupacion, \
+    verSolicitudesAgrupacion, aprobarContratacion, rechazarContratacion, verRetroalimentaciones
 from contrataciones.views import validarCorreo, crearContratacion, realizarAbono, editarContratacion, \
     cancelarContratacion
 from usuarios.views import verAgrupaciones, verGeneros, caracteristicasPorAgrupacion, validarCorreoParaContrataciones, \
@@ -50,4 +51,8 @@ urlpatterns = [
     path('editar_contratacion/<int:id_usuario>/<int:id_contratacion>', editarContratacion),
     path('retroalimentar_agrupacion/<int:id_usuario>/<int:id_contratacion>', retroalimentarAgrupacion),
     path('menu_agrupacion', menuAgrupacion, name='menu_agrupacion'),
+    path('menu_agrupacion/solicitudes', verSolicitudesAgrupacion, name='solicitudes_agrupacion'),
+    path('menu_agrupacion/aprobar/<int:id>', aprobarContratacion),
+    path('menu_agrupacion/rechazar/<int:id>', rechazarContratacion),
+    path('menu_agrupacion/retroalimentaciones', verRetroalimentaciones),
 ]

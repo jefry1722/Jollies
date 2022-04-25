@@ -20,6 +20,7 @@ def crearContratacion(request, id, correo):
     hora_actual_mas_3_horas = (datetime.now() + timedelta(hours=3)).strftime("%H:%M")
     swal_error_fecha = False
     swal_error_fecha_contratacion = False
+    direccion = ""
     if request.method == 'POST':
         agrupacion = Agrupacion.objects.get(id=id)
 
@@ -40,14 +41,21 @@ def crearContratacion(request, id, correo):
                     "%H:%M") <= hora_actual_mas_1_30_horas:
                 swal_error_fecha_contratacion = True
                 break
+            if contratacion.fecha.__str__() == fecha and hora_actual_mas_1_30_horas <= datetime.strptime("01:30",
+                                                                                                         "%H:%M").strftime(
+                "%H:%M"):
+                swal_error_fecha_contratacion = True
+                break
 
         # Validar si la contratacion es en la misma fecha y con 3 horas de anticipacion
         if fecha == fecha_actual.__str__() and datetime.strptime(hora, "%H:%M").strftime(
                 "%H:%M") <= hora_actual_mas_3_horas:
             swal_error_fecha = True
-        elif swal_error_fecha_contratacion:
-            True
-        else:
+        elif fecha == fecha_actual.__str__() and hora_actual_mas_3_horas <= datetime.strptime("03:00",
+                                                                                              "%H:%M").strftime(
+            "%H:%M"):
+            swal_error_fecha = True
+        elif not swal_error_fecha_contratacion and not swal_error_fecha:
             try:
                 usuario = Usuario.objects.get(correo=correo)
                 contratacion = Contratacion(fecha=fecha, hora=hora, tiempo=tiempo, direccion=direccion,
@@ -69,11 +77,12 @@ def crearContratacion(request, id, correo):
         usuario = Usuario.objects.get(correo=correo)
         return render(request, 'contratacion.html', {'usuario': usuario, 'fecha_actual': fecha_actual.__str__(),
                                                      'swal_error_fecha': swal_error_fecha,
-                                                     'swal_error_fecha_contratacion': swal_error_fecha_contratacion})
+                                                     'swal_error_fecha_contratacion': swal_error_fecha_contratacion,
+                                                     'direccion': direccion})
     except:
         return render(request, 'contratacion.html',
                       {'correo': correo, 'fecha_actual': fecha_actual.__str__(), 'swal_error_fecha': swal_error_fecha,
-                       'swal_error_fecha_contratacion': swal_error_fecha_contratacion})
+                       'swal_error_fecha_contratacion': swal_error_fecha_contratacion, 'direccion': direccion})
 
 
 def cancelarContratacion(request, id_usuario, id_contratacion):

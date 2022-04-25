@@ -40,7 +40,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body class="body_history no_body">
+  <body class="body_correo no_body">
     <div class="container-xxl position-relative p-0" id="home">
       <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
           <a href="/" class="navbar-brand p-0">
@@ -63,7 +63,7 @@
 
     <main>
       <div class="container">
-        <h1>Hola {{usuario.nombre}}, este es tu historial de contrataciones</h1>
+        <h1 style="color: white;">Hola {{usuario.nombre}}, este es tu historial de contrataciones</h1>
         {% for contratacion in contrataciones %}
         <div class="agrupaciones m-3">
           <div class="content">
@@ -81,7 +81,7 @@
                 <pre class="list-group-item list-group-item-success subir_media">No puedes editar ni cancelar esta contratación</pre>
             {%endif%}
           {%else%}
-            {%if contratacion.estado != "completado" and contratacion.estado != "cancelado" and contratacion.fecha >= fecha_actual%}
+            {%if contratacion.estado != "completado" and contratacion.estado != "cancelado" and contratacion.estado != "rechazado" and contratacion.fecha >= fecha_actual%}
               <a
                 class="list-group-item list-group-item-primary subir_media"
                 href="editar_contratacion/{{usuario.id}}/{{contratacion.id}}"
