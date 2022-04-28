@@ -117,7 +117,6 @@ header {
   transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
-
 /*Ocultar scroll para chrome, safari y opera*/
 .menu__side::-webkit-scrollbar {
   display: none;
@@ -338,7 +337,6 @@ a.selected {
     gap: 2rem;
   }
 }
-  
 
 .hero-inner p,
 .hero h2 {
@@ -403,11 +401,11 @@ a.selected {
 }
 
 .hero-form-submit {
-  background-color: #F50057;
+  background-color: #f50057;
   color: #fff;
   border: none;
   padding: 1rem 2rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 @media (min-width: 400px) {
@@ -428,7 +426,8 @@ a.selected {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-#login .user, #login .pass {
+#login .user,
+#login .pass {
   background-color: #363b41;
   border-radius: 5px;
   padding-left: 50px;
@@ -440,7 +439,8 @@ a.selected {
 #login input {
   height: 50px;
 }
-#login .user input, #login .pass input {
+#login .user input,
+#login .pass input {
   background-color: #3b4148;
   border-radius: 0px 5px 5px 0px;
   border: none;
@@ -459,7 +459,7 @@ a.selected {
   color: #eee;
   font-weight: bold;
   border: 0;
-  background-color: #9E2292;
+  background-color: #9e2292;
   text-shadow: 1px 1px 3px #000;
   box-shadow: 1px 1px 3px #000;
 }
@@ -469,6 +469,9 @@ a.selected {
 }
 .purple-border .form-control:focus {
   border: 1px solid #ba68c8;
-  box-shadow: 0 0 0 0.2rem rgba(186, 104, 200, .25);
+  box-shadow: 0 0 0 0.2rem rgba(186, 104, 200, 0.25);
 }
 
+.comentario:hover {
+  background-color: #ffa2c3;
+}

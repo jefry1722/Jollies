@@ -29,3 +29,8 @@ class Media(models.Model):
     tipo = models.CharField(max_length=50)
     url = models.CharField(max_length=255)
     agrupacion = models.ForeignKey(Agrupacion, on_delete=models.SET_NULL, null=True)
+
+class Integrante(models.Model):
+    correo = models.CharField(max_length=255)
+    agrupacion = models.ForeignKey(Agrupacion, on_delete=models.SET_NULL, null=True)
+

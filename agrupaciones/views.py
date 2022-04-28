@@ -287,19 +287,24 @@ def aprobarContratacion(request, id):
 def rechazarContratacion(request, id):
     if not validateAgrupacionSession(request):
         return redirect('index')
-    try:
-        contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
-        contratacion.estado = "rechazado"
-        contratacion.save()
-        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha rechazado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion
-        enviarCorreo(contratacion.usuario.correo, "SE HA RECHAZADO TU CONTRATACIÓN", mensaje)
-        return redirect('solicitudes_agrupacion')
-    except:
-        return redirect('index')
+    if request.method == "POST":
+        comentario = request.POST.get("comentario")
+        try:
+            contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
+            contratacion.estado = "rechazado"
+            contratacion.save()
+            mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha rechazado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion
+            if comentario is not None:
+                mensaje+="\nRazón: "+comentario
+            enviarCorreo(contratacion.usuario.correo, "SE HA RECHAZADO TU CONTRATACIÓN", mensaje)
+            return redirect('solicitudes_agrupacion')
+        except:
+            return redirect('index')
+    return render(request, 'menu_agrupacion_cancelar.html')
 
 
 def verRetroalimentaciones(request):
     if not validateAgrupacionSession(request):
         return redirect('index')
-    contrataciones = Contratacion.objects.filter(rating__isnull=False,agrupacion_id=request.session["agrupacion_id"])
+    contrataciones = Contratacion.objects.filter(rating__isnull=False, agrupacion_id=request.session["agrupacion_id"])
     return render(request, 'menu_manager_retroalimentaciones.html', {'contrataciones': contrataciones})
