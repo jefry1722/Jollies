@@ -92,6 +92,12 @@
                 >Cancelar contratación<i class="fa-solid fa-ban"></i></a>
             {%endif%}
           {%endif%}
+          {%if contratacion.estado == "pendiente abono"%}
+            <a
+                class="list-group-item list-group-item-secondary subir_media"
+                href="contratacion/abono/{{contratacion.id}}"
+                >Realizar abono<i class="fa-solid fa-money-check-dollar"></i></a>
+          {%endif%}
           {%if contratacion.estado == "completado" and not contratacion.rating%}
             <a
                 class="list-group-item list-group-item-warning subir_media"

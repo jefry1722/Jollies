@@ -275,9 +275,9 @@ def aprobarContratacion(request, id):
         return redirect('index')
     try:
         contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
-        contratacion.estado = "aprobado"
+        contratacion.estado = "pendiente abono"
         contratacion.save()
-        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha aprobado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion
+        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha aprobado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion +"\n¡Ahora puedes realizar tu abono!"
         enviarCorreo(contratacion.usuario.correo, "SE HA APROBADO TU CONTRATACIÓN", mensaje)
         return redirect('solicitudes_agrupacion')
     except:

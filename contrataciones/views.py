@@ -60,7 +60,7 @@ def crearContratacion(request, id, correo):
                 usuario = Usuario.objects.get(correo=correo)
                 contratacion = Contratacion(fecha=fecha, hora=hora, tiempo=tiempo, direccion=direccion,
                                             agrupacion=agrupacion,
-                                            usuario=usuario, estado="pendiente abono",
+                                            usuario=usuario, estado="pendiente aprobacion",
                                             precio=agrupacion.precio * int(tiempo))
                 contratacion.save()
             except:
@@ -68,10 +68,10 @@ def crearContratacion(request, id, correo):
                 usuario.save()
                 contratacion = Contratacion(fecha=fecha, hora=hora, tiempo=tiempo, direccion=direccion,
                                             agrupacion=agrupacion,
-                                            usuario=usuario, estado="pendiente abono",
+                                            usuario=usuario, estado="pendiente aprobacion",
                                             precio=agrupacion.precio * int(tiempo))
                 contratacion.save()
-            return redirect('abono', id=contratacion.id)
+            return redirect('index')
 
     try:
         usuario = Usuario.objects.get(correo=correo)
@@ -125,17 +125,15 @@ def editarContratacion(request, id_usuario, id_contratacion):
             if fecha == fecha_actual.__str__() and datetime.strptime(hora, "%H:%M").strftime(
                     "%H:%M") <= hora_actual_mas_3_horas:
                 swal_error_fecha = True
-            elif swal_error_fecha_contratacion:
-                True
-            else:
+            elif not swal_error_fecha_contratacion and not swal_error_fecha:
                 contratacion_actual.fecha = fecha
                 contratacion_actual.hora = hora
                 contratacion_actual.tiempo = tiempo
                 contratacion_actual.direccion = direccion
                 contratacion_actual.precio = agrupacion.precio * int(tiempo)
-                contratacion_actual.estado = "pendiente abono"
+                contratacion_actual.estado = "pendiente aprobacion"
                 contratacion_actual.save()
-                return redirect('abono', id=contratacion.id)
+                return redirect('index')
         return render(request, 'contratacion.html',
                       {'usuario': usuario, 'contratacion': contratacion_actual, 'fecha_actual': fecha_actual.__str__(),
                        'swal_error_fecha': swal_error_fecha,
@@ -153,7 +151,7 @@ def realizarAbono(request, id):
         transactionTime = datetime.now().strftime("%H:%M:%S")
         facturaction = Facturacion(abono=abono, fecha=transactionDate, hora=transactionTime, contratacion=contratacion)
         facturaction.save()
-        contratacion.estado = "pendiente aprobacion"
+        contratacion.estado = "aprobado"
         contratacion.save()
         return render(request, 'abono.html', {'abono': precio, 'swal_success_abono': True})
     return render(request, 'abono.html', {'abono': precio})
