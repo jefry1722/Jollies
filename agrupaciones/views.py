@@ -6,7 +6,7 @@ from django.db.models import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from django.shortcuts import render, redirect, get_object_or_404
 
-from agrupaciones.models import Manager, Agrupacion, Genero, Media
+from agrupaciones.models import Manager, Agrupacion, Genero, Media, Integrante
 from agrupaciones.utils import enviarCorreo
 from contrataciones.models import Contratacion
 
@@ -277,7 +277,7 @@ def aprobarContratacion(request, id):
         contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
         contratacion.estado = "pendiente abono"
         contratacion.save()
-        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha aprobado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion +"\n¡Ahora puedes realizar tu abono!"
+        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha aprobado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion + "\n¡Ahora puedes realizar tu abono!"
         enviarCorreo(contratacion.usuario.correo, "SE HA APROBADO TU CONTRATACIÓN", mensaje)
         return redirect('solicitudes_agrupacion')
     except:
@@ -295,7 +295,7 @@ def rechazarContratacion(request, id):
             contratacion.save()
             mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha rechazado tu contratación.\nPara el dia: " + contratacion.fecha.__str__() + " a las " + contratacion.hora.__str__() + ".\nEn tu ubicación: " + contratacion.direccion
             if comentario is not None:
-                mensaje+="\nRazón: "+comentario
+                mensaje += "\nRazón: " + comentario
             enviarCorreo(contratacion.usuario.correo, "SE HA RECHAZADO TU CONTRATACIÓN", mensaje)
             return redirect('solicitudes_agrupacion')
         except:
@@ -308,3 +308,35 @@ def verRetroalimentaciones(request):
         return redirect('index')
     contrataciones = Contratacion.objects.filter(rating__isnull=False, agrupacion_id=request.session["agrupacion_id"])
     return render(request, 'menu_manager_retroalimentaciones.html', {'contrataciones': contrataciones})
+
+
+def validarCorreoIntegrante(request):
+    if request.method == 'POST':
+        correo = request.POST.get("correo")
+        return redirect('contrataciones_integrante', correo=correo)
+    return render(request, 'validacion_correo_integrante.html')
+
+
+def asociarIntegrante(request):
+    if not validateAgrupacionSession(request):
+        return redirect('index')
+    if request.method == 'POST':
+        correo = request.POST.get("correo")
+        agrupacion = Agrupacion.objects.get(id=request.session["agrupacion_id"])
+        try:
+            integrante = Integrante.objects.get(correo=correo)
+            return render(request, 'menu_agrupacion_nuevo_integrante.html', {'swal_error_correo': True})
+        except:
+            integrante = Integrante(correo=correo, agrupacion=agrupacion)
+            integrante.save()
+        return redirect('menu_agrupacion')
+    return render(request, 'menu_agrupacion_nuevo_integrante.html')
+
+
+def verContratacionesIntegrante(request, correo):
+    try:
+        integrante = Integrante.objects.get(correo=correo)
+        contrataciones = Contratacion.objects.filter(agrupacion=integrante.agrupacion)
+        return render(request, 'contrataciones_integrante.html', {'contrataciones': contrataciones})
+    except:
+        return redirect('index')

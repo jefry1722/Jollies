@@ -18,7 +18,8 @@ from django.urls import path
 
 from agrupaciones.views import nuevoManager, nuevaAgrupacion, loginManager, menuManager, renovateAccountDate, \
     editarAgrupacion, logout, subirMedia, menuManagerMedia, menuManagerAgrupaciones, menuManagerEditar, menuAgrupacion, \
-    verSolicitudesAgrupacion, aprobarContratacion, rechazarContratacion, verRetroalimentaciones
+    verSolicitudesAgrupacion, aprobarContratacion, rechazarContratacion, verRetroalimentaciones, asociarIntegrante, \
+    validarCorreoIntegrante, verContratacionesIntegrante
 from contrataciones.views import validarCorreo, crearContratacion, realizarAbono, editarContratacion, \
     cancelarContratacion
 from usuarios.views import verAgrupaciones, verGeneros, caracteristicasPorAgrupacion, validarCorreoParaContrataciones, \
@@ -55,4 +56,7 @@ urlpatterns = [
     path('menu_agrupacion/aprobar/<int:id>', aprobarContratacion),
     path('menu_agrupacion/rechazar/<int:id>', rechazarContratacion),
     path('menu_agrupacion/retroalimentaciones', verRetroalimentaciones),
+    path('menu_agrupacion/asociar_integrante', asociarIntegrante),
+    path('validar_correo_integrante', validarCorreoIntegrante),
+    path('contrataciones_integrante/<str:correo>', verContratacionesIntegrante, name='contrataciones_integrante'),
 ]
