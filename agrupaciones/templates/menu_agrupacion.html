@@ -42,10 +42,61 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+
+    <script
+    src="https://kit.fontawesome.com/41bcea2ae3.js"
+    crossorigin="anonymous"
+  ></script>
+
   </head>
-  <body>
-    <h1>Agrupacion</h1>
-    <a href="logout">Cerrar Sesión</a>
+  <body id="body" class="body_manager" >
+    <h1 class="m-2">Agrupacion</h1>
+    <header>
+      <div class="icon__menu">
+        <i class="fas fa-bars" id="btn_open"></i>
+      </div>
+      <div class="logout">
+        <a href="logout">Cerrar Sesión</a>
+      </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+      <div class="name__page">
+        <img src="static/img/logoico.ico" width="30px" height="30px" />
+        <h6 class="m-3">Jollies</h6>
+      </div>
+
+      <div class="options__menu">
+        <a href="menu_agrupacion" class="selected">
+          <div class="option">
+            <i class="fas fa-home" title="Inicio"></i>
+            <h6>Inicio</h6>
+          </div>
+        </a>
+
+        <a href="menu_agrupacion/solicitudes">
+          <div class="option">
+            <i class="fa-solid fa-envelopes-bulk" title="Ver Solicitudes"></i>
+            <h6>Ver solicitudes</h6>
+          </div>
+        </a>
+
+        <a href="menu_agrupacion/retroalimentaciones">
+          <div class="option">
+            <i class="fa-solid fa-star-half-stroke" title="Ver retroalimentaciones"></i>
+            <h6>Ver retroalimentaciones</h6>
+          </div>
+        </a>
+
+        
+        <a href="menu_agrupacion/asociar_integrante">
+          <div class="option">
+            <i class="fa-solid fa-square-envelope" title="Asocia el correo de tus integrantes"></i>
+            <h6>Asocia el correo de tus integrantes</h6>
+          </div>
+        </a>
+      </div>
+    </div>
     <main>
       <div class="container m-2 contenedor">
         <div class="datos">
@@ -69,27 +120,7 @@
           </div>
         </div>
       </div>
-      <div>
-        <a href="menu_agrupacion/solicitudes" style="text-decoration: none">
-          <button class="btn btn-success">Ver solicitudes</button>
-        </a>
-        <br />
-        <a
-          href="menu_agrupacion/retroalimentaciones"
-          style="text-decoration: none"
-        >
-          <button class="btn btn-warning">Ver retroalimentaciones</button>
-        </a>
-        <br />
-        <a
-          href="menu_agrupacion/asociar_integrante"
-          style="text-decoration: none"
-        >
-          <button class="btn btn-primary">
-            Asocia el correo de tus integrantes
-          </button>
-        </a>
-      </div>
     </main>
+    <script src="static/js/script.js"></script>
   </body>
 </html>
