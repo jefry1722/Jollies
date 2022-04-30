@@ -2,13 +2,13 @@ from datetime import date, timedelta
 import calendar
 import re
 import cloudinary.uploader
-from django.db.models import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from django.shortcuts import render, redirect, get_object_or_404
 
 from agrupaciones.models import Manager, Agrupacion, Genero, Media, Integrante
 from agrupaciones.utils import enviarCorreo
 from contrataciones.models import Contratacion
+from twilio.rest import Client
 
 
 def embed_url(video_url):
@@ -265,9 +265,26 @@ def menuAgrupacion(request):
 def verSolicitudesAgrupacion(request):
     if not validateAgrupacionSession(request):
         return redirect('index')
+    # Envio de ubicación
+    if request.method == 'POST':
+        id_contratacion = request.POST.get("id")
+        latitud = request.POST.get("lat")
+        longitud = request.POST.get("lon")
+        contratacion = Contratacion.objects.get(id=id_contratacion)
+        account_sid = 'AC78eb6cd94e3fe585335ba179f7d09152'
+        auth_token = '01b698d42209ccf8bcb6d1de74b2f4c6'
+        client = Client(account_sid, auth_token)
+        client.messages.create(
+            from_='whatsapp:+14155238886',
+            body='Ubicación: ' + contratacion.agrupacion.nombre,
+            to='whatsapp:+57' + contratacion.usuario.telefono,
+            persistent_action="geo:" + latitud + "," + longitud
+        )
+    fecha_actual = date.today()
     agrupacion = Agrupacion.objects.get(id=request.session["agrupacion_id"])
     contrataciones = Contratacion.objects.filter(agrupacion=agrupacion)
-    return render(request, 'menu_agrupacion_solicitudes.html', {'contrataciones': contrataciones})
+    return render(request, 'menu_agrupacion_solicitudes.html',
+                  {'contrataciones': contrataciones, 'fecha_actual': fecha_actual})
 
 
 def aprobarContratacion(request, id):
@@ -300,6 +317,7 @@ def rechazarContratacion(request, id):
             return redirect('solicitudes_agrupacion')
         except:
             return redirect('index')
+
     return render(request, 'menu_agrupacion_cancelar.html')
 
 
@@ -307,7 +325,7 @@ def verRetroalimentaciones(request):
     if not validateAgrupacionSession(request):
         return redirect('index')
     contrataciones = Contratacion.objects.filter(rating__isnull=False, agrupacion_id=request.session["agrupacion_id"])
-    return render(request, 'menu_manager_retroalimentaciones.html', {'contrataciones': contrataciones})
+    return render(request, 'menu_agrupacion_retroalimentaciones.html', {'contrataciones': contrataciones})
 
 
 def validarCorreoIntegrante(request):

@@ -49,10 +49,63 @@
     ></script>
     <!--SweetAlert-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/41bcea2ae3.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
-  <body>
-    <h1>Agrupacion</h1>
-    <a href="logout">Cerrar Sesión</a>
+  <body id="body" class="body_manager">
+    <header>
+      <div class="icon__menu">
+        <i class="fas fa-bars" id="btn_open"></i>
+      </div>
+      <div class="logout">
+        <a href="logout">Cerrar Sesión</a>
+      </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+      <div class="name__page">
+        <img src="static/img/logoico.ico" width="30px" height="30px" />
+        <h6 class="m-3">Jollies</h6>
+      </div>
+
+      <div class="options__menu">
+        <a href="menu_agrupacion">
+          <div class="option">
+            <i class="fas fa-home" title="Inicio"></i>
+            <h6>Inicio</h6>
+          </div>
+        </a>
+
+        <a href="menu_agrupacion/solicitudes" class="selected">
+          <div class="option">
+            <i class="fa-solid fa-envelopes-bulk" title="Ver Solicitudes"></i>
+            <h6>Ver solicitudes</h6>
+          </div>
+        </a>
+
+        <a href="menu_agrupacion/retroalimentaciones">
+          <div class="option">
+            <i
+              class="fa-solid fa-star-half-stroke"
+              title="Ver retroalimentaciones"
+            ></i>
+            <h6>Ver retroalimentaciones</h6>
+          </div>
+        </a>
+
+        <a href="menu_agrupacion/asociar_integrante">
+          <div class="option">
+            <i
+              class="fa-solid fa-square-envelope"
+              title="Asocia el correo de tus integrantes"
+            ></i>
+            <h6>Asocia el correo de tus integrantes</h6>
+          </div>
+        </a>
+      </div>
+    </div>
 
     <main>
       <div class="container">
@@ -62,8 +115,8 @@
           <textarea
             name="comentario"
             id="txarea"
-            cols="60"
-            rows="10"
+            cols="40"
+            rows="3"
             placeholder="Escribe tu razón o escoge un mensaje predeterminado"
           ></textarea>
           <br />
@@ -116,5 +169,6 @@
         txarea.innerText = event.target.innerText;
       };
     </script>
+    <script src="static/js/script.js"></script>
   </body>
 </html>

@@ -49,12 +49,11 @@
     ></script>
     <!--SweetAlert-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  
-    <script
-    src="https://kit.fontawesome.com/41bcea2ae3.js"
-    crossorigin="anonymous"
-  ></script>
 
+    <script
+      src="https://kit.fontawesome.com/41bcea2ae3.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body id="body" class="body_manager">
     <header>
@@ -89,15 +88,20 @@
 
         <a href="menu_agrupacion/retroalimentaciones">
           <div class="option">
-            <i class="fa-solid fa-star-half-stroke" title="Ver retroalimentaciones"></i>
+            <i
+              class="fa-solid fa-star-half-stroke"
+              title="Ver retroalimentaciones"
+            ></i>
             <h6>Ver retroalimentaciones</h6>
           </div>
         </a>
 
-        
         <a href="menu_agrupacion/asociar_integrante">
           <div class="option">
-            <i class="fa-solid fa-square-envelope" title="Asocia el correo de tus integrantes"></i>
+            <i
+              class="fa-solid fa-square-envelope"
+              title="Asocia el correo de tus integrantes"
+            ></i>
             <h6>Asocia el correo de tus integrantes</h6>
           </div>
         </a>
@@ -106,7 +110,7 @@
 
     <main>
       <div class="container">
-        <h1>Solicitudes de contratacion</h1>
+        <h1>Solicitudes de contratación</h1>
         {% for contratacion in contrataciones %}
         <div class="agrupaciones m-3">
           <div class="content">
@@ -119,7 +123,7 @@
           <div class="content" style="color: rgb(239, 155, 20)">
             <h2>&nbsp;Estado: {{contratacion.estado|capfirst}}</h2>
           </div>
-          {%if contratacion.estado == "pendiente aprobacion"%}
+          {%if contratacion.estado == "pendiente aprobacion" and  contratacion.fecha >= fecha_actual%}
           <a
             class="list-group-item list-group-item-primary subir_media"
             href="menu_agrupacion/aprobar/{{contratacion.id}}"
@@ -134,11 +138,45 @@
               class="fa-solid fa-rectangle-xmark"
             ></i>
           </a>
+          {%endif%} {%if contratacion.estado == "aprobado" or  contratacion.estado == "pendiente aprobacion" and contratacion.fecha >= fecha_actual%}
+          <a
+            class="list-group-item list-group-item-secondary subir_media"
+            onclick="reportarUbicacion()"
+            style="cursor: pointer"
+            >Reportar ubicación&nbsp;&nbsp;<i
+              class="fa-solid fa-location-dot"
+            ></i>
+          </a>
+          <input name="id" id="hidden_id" value="{{contratacion.id}}" hidden />
           {%endif%}
         </div>
         {% endfor %}
       </div>
+      <form method="POST" id="gps_form" hidden>{% csrf_token %}</form>
     </main>
     <script src="static/js/script.js"></script>
+    <script type="text/javascript">
+      const reportarUbicacion = () => {
+        const form = document.getElementById("gps_form");
+        navigator.geolocation.getCurrentPosition(
+          ({ coords: { latitude, longitude } }) => {
+            const inputId = document.getElementById("hidden_id");
+            const inputLat = document.createElement("input");
+            const inputLon = document.createElement("input");
+            inputLat.name = "lat";
+            inputLon.name = "lon";
+            inputLat.value = `${latitude}`;
+            inputLon.value = `${longitude}`;
+            form.appendChild(inputLat);
+            form.appendChild(inputLon);
+            form.append(inputId);
+            form.submit();
+          },
+          (error) => {
+            window.history.back();
+          }
+        );
+      };
+    </script>
   </body>
 </html>

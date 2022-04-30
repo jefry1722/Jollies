@@ -2,25 +2,55 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <!-- CSS only -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
+    <base href="/" />
+
     <!-- Favicon -->
     <link href="static/img/logoico.ico" rel="icon" />
+
+    <link rel="stylesheet" href="static/css/estilos.css" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&family=Jost:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Libraries Stylesheet -->
+    <link href="static/lib/animate/animate.min.css" rel="stylesheet" />
+    <link
+      href="static/lib/owlcarousel/assets/owl.carousel.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Template Stylesheet -->
+    <link href="static/css/style.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--SweetAlert-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script
       src="https://kit.fontawesome.com/41bcea2ae3.js"
       crossorigin="anonymous"
     ></script>
-    <!--SweetAlert-->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Abono</title>
   </head>
   <body
-    class="container mt-5"
+    class="no_body"
     style="
       background: linear-gradient(
         90deg,
@@ -29,79 +59,133 @@
       );
     "
   >
-    <h1 class="m-5" style="color: white">
-      Para terminar debes de realizar un abono con el 10% del valor de la
-      contratación
-    </h1>
-    <form method="POST">
-      <div class="card">
-        <div class="card-header">
-          <h2>
-            Ingresa los datos de tu tarjeta de crédito
-            <i class="fa-brands fa-cc-visa" style="margin-left: 12px"></i>
-            <i class="fa-brands fa-cc-mastercard" style="margin-left: 12px"></i>
-            <i class="fa-brands fa-cc-amex" style="margin-left: 12px"></i>
-          </h2>
+    <div class="container-xxl position-relative p-0" id="home">
+      <nav
+        class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0"
+      >
+        <a href="/" class="navbar-brand p-0">
+          <img src="static/img/logo.png" alt="Logo" />
+          <h1 class="m-0">JOLLIES</h1>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+        >
+          <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav mx-auto py-0">
+            <a
+              style="color: black !important"
+              href="/"
+              class="nav-item nav-link"
+              >Inicio</a
+            >
+            <a
+              style="color: black !important"
+              href="validar_correo_historial"
+              class="nav-item nav-link"
+              >Estado de contrataciones</a
+            >
+            <a
+              style="color: black !important"
+              href="nuevo_manager"
+              class="nav-item nav-link"
+              >Registrarse</a
+            >
+            <a
+              style="color: black !important"
+              href="login_manager"
+              class="nav-item nav-link"
+              >Iniciar Sesión</a
+            >
+          </div>
         </div>
-        <div class="card-body">
-          <div class="form-row">
-            <div class="form-group col">
-              <label for="valor">Valor a pagar</label>
-              <input
-                class="form-control"
-                id="valor"
-                placeholder="0000-0000-0000-0000"
-                required
-                value="${{abono}}"
-                disabled
-              />
+      </nav>
+    </div>
+
+    <main>
+      <h1 class="m-5" style="color: white">
+        Para terminar debes de realizar un abono con el 10% del valor de la
+        contratación
+      </h1>
+      <form method="POST">
+        <div class="card">
+          <div class="card-header">
+            <h2>
+              Ingresa los datos de tu tarjeta de crédito
+              <i class="fa-brands fa-cc-visa" style="margin-left: 12px"></i>
+              <i
+                class="fa-brands fa-cc-mastercard"
+                style="margin-left: 12px"
+              ></i>
+              <i class="fa-brands fa-cc-amex" style="margin-left: 12px"></i>
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="form-row col">
+              <div class="form-group col">
+                <label for="valor">Valor a pagar</label>
+                <input
+                  class="form-control"
+                  id="valor"
+                  placeholder="0000-0000-0000-0000"
+                  required
+                  value="${{abono}}"
+                  disabled
+                />
+              </div>
+              <div class="form-group col">
+                <label for="n_tarjeta">Número de la tarjeta</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="n_tarjeta"
+                  placeholder="0000-0000-0000-0000"
+                  required
+                />
+              </div>
+              <div class="form-group col">
+                <label for="n_titular">Nombre del titular</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="n_titular"
+                  placeholder="José Francisco Caldas"
+                  required
+                />
+              </div>
             </div>
-            <div class="form-group col">
-              <label for="n_tarjeta">Número de la tarjeta</label>
+            <div class="form-group">
+              <label for="fecha_vencimiento"
+                >Fecha de vencimiento (MM/AA)</label
+              >
               <input
                 type="text"
                 class="form-control"
-                id="n_tarjeta"
-                placeholder="0000-0000-0000-0000"
+                id="fecha_vencimiento"
+                placeholder="12/26"
                 required
               />
             </div>
-            <div class="form-group col">
-              <label for="n_titular">Nombre del titular</label>
+            <div class="form-group">
+              <label for="codigo">Código de seguridad</label>
               <input
                 type="text"
                 class="form-control"
-                id="n_titular"
-                placeholder="José Francisco Caldas"
+                id="codigo"
+                placeholder="123"
                 required
               />
             </div>
           </div>
-          <div class="form-group">
-            <label for="fecha_vencimiento">Fecha de vencimiento (MM/AA)</label>
-            <input
-              type="text"
-              class="form-control"
-              id="fecha_vencimiento"
-              placeholder="12/26"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="codigo">Código de seguridad</label>
-            <input
-              type="text"
-              class="form-control"
-              id="codigo"
-              placeholder="123"
-              required
-            />
-          </div>
+          <button class="btn btn-danger" type="submit">Realizar Abono</button>
         </div>
-        <button class="btn btn-danger" type="submit">Realizar Abono</button>
-      </div>
-      {% csrf_token %}
-    </form>
+        {% csrf_token %}
+      </form>
+    </main>
     {%if swal_success_abono%}
     <script type="text/javascript">
       swal({
@@ -116,5 +200,17 @@
       });
     </script>
     {%endif%}
+    <script src="static/js/script.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/lib/wow/wow.min.js"></script>
+    <script src="static/lib/easing/easing.min.js"></script>
+    <script src="static/lib/waypoints/waypoints.min.js"></script>
+    <script src="static/lib/counterup/counterup.min.js"></script>
+    <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="static/js/main.js"></script>
   </body>
 </html>
