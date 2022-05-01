@@ -300,6 +300,18 @@ def aprobarContratacion(request, id):
     except:
         return redirect('index')
 
+def completarContratacion(request,id):
+    if not validateAgrupacionSession(request):
+        return redirect('index')
+    try:
+        contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
+        contratacion.estado = "completado"
+        contratacion.save()
+        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha completado el servicio.\nAhora puedes realizar tu retroalimentación de tu contratación."
+        enviarCorreo(contratacion.usuario.correo, "SE HA COMPLETADO TU CONTRATACIÓN", mensaje)
+        return redirect('solicitudes_agrupacion')
+    except:
+        return redirect('index')
 
 def rechazarContratacion(request, id):
     if not validateAgrupacionSession(request):
@@ -358,3 +370,4 @@ def verContratacionesIntegrante(request, correo):
         return render(request, 'contrataciones_integrante.html', {'contrataciones': contrataciones})
     except:
         return redirect('index')
+
