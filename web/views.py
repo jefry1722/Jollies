@@ -1,10 +1,15 @@
+from django.db.models import Avg
 from django.shortcuts import render
 
 from agrupaciones.models import Agrupacion
+from contrataciones.models import Contratacion
 from usuarios.models import Usuario
 
 
 def inicio(request):
     agrupaciones = Agrupacion.objects.order_by('id')
+    top_agrupaciones = Contratacion.objects.values('agrupacion__nombre').order_by('agrupacion_id').annotate(
+        rating=Avg('rating'))[:3]
     usuarios = Usuario.objects.order_by('id')
-    return render(request, 'index.html', {'numero_agrupaciones': len(agrupaciones), 'numero_usuarios': len(usuarios)})
+    return render(request, 'index.html', {'numero_agrupaciones': len(agrupaciones), 'numero_usuarios': len(usuarios),
+                                          'top_agrupaciones': top_agrupaciones})

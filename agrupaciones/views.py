@@ -307,7 +307,7 @@ def completarContratacion(request,id):
         contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
         contratacion.estado = "completado"
         contratacion.save()
-        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha completado el servicio.\nAhora puedes realizar tu retroalimentación de tu contratación."
+        mensaje = "La agrupación: " + contratacion.agrupacion.nombre + " ha completado el servicio.\nAhora puedes realizar la retroalimentación de tu contratación."
         enviarCorreo(contratacion.usuario.correo, "SE HA COMPLETADO TU CONTRATACIÓN", mensaje)
         return redirect('solicitudes_agrupacion')
     except:

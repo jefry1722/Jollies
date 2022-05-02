@@ -138,7 +138,7 @@
               class="fa-solid fa-rectangle-xmark"
             ></i>
           </a>
-          {%endif%} {%if contratacion.estado == "aprobado" or  contratacion.estado == "pendiente abono" and contratacion.fecha >= fecha_actual%}
+          {%endif%} {%if contratacion.estado == "aprobado" and contratacion.fecha >= fecha_actual%}
           <a
             class="list-group-item list-group-item-secondary subir_media"
             onclick="reportarUbicacion()"
