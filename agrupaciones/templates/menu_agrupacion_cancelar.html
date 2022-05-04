@@ -110,54 +110,30 @@
     <main>
       <div class="container">
         <h3 style="color: red">*Opcional:</h3>
-        <h1>Dinos la razón por la que cancelaste la solicitud</h1>
+        <h1>Escribe la razón por la que cancelaste la solicitud</h1>
         <form method="POST">
+          <select
+            class="form-select form-select-lg mb-3"
+            aria-label=".form-select-lg example"
+            onclick="getComment(event)"
+            style="border: black 1px solid"
+          >
+            <option selected value="">Seleccione una opción</option>
+            <option>La ubicación no me queda cómoda</option>
+            <option>La fecha no se acomoda a lo que requiero</option>
+            <option>Tengo otro compromiso para ese horario</option>
+            <option>No realizo contrataciones en ese horario</option>
+          </select>
           <textarea
             name="comentario"
             id="txarea"
-            cols="40"
+            class="form-control"
             rows="3"
+            style="border: black 1px solid"
             placeholder="Escribe tu razón o escoge un mensaje predeterminado"
           ></textarea>
           <br />
-          <button
-            id="comentario1"
-            class="btn comentario m-1"
-            type="button"
-            style="border: 1px solid black"
-            onclick="getComment(event)"
-          >
-            La ubicación no me queda cómoda
-          </button>
-          <button
-            id="comentario2"
-            class="btn comentario m-1"
-            type="button"
-            style="border: 1px solid black"
-            onclick="getComment(event)"
-          >
-            La fecha no se acomoda a lo que requiero
-          </button>
-          <button
-            id="comentario3"
-            class="btn comentario m-1"
-            type="button"
-            style="border: 1px solid black"
-            onclick="getComment(event)"
-          >
-            Tengo otro compromiso para ese horario
-          </button>
-          <button
-            id="comentario4"
-            class="btn comentario m-1"
-            type="button"
-            style="border: 1px solid black"
-            onclick="getComment(event)"
-          >
-            No realizo contrataciones en ese horario
-          </button>
 
-          <br />
           <button class="btn btn-primary m-1" type="submit">Enviar</button>
           {% csrf_token %}
         </form>
@@ -165,8 +141,9 @@
     </main>
     <script type="text/javascript">
       const getComment = (event) => {
+        console.log(event);
         const txarea = document.getElementById("txarea");
-        txarea.innerText = event.target.innerText;
+        txarea.innerText = event.target.value;
       };
     </script>
     <script src="static/js/script.js"></script>

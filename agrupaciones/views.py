@@ -270,9 +270,10 @@ def verSolicitudesAgrupacion(request):
         id_contratacion = request.POST.get("id")
         latitud = request.POST.get("lat")
         longitud = request.POST.get("lon")
+
         contratacion = Contratacion.objects.get(id=id_contratacion)
         account_sid = 'AC78eb6cd94e3fe585335ba179f7d09152'
-        auth_token = '01b698d42209ccf8bcb6d1de74b2f4c6'
+        auth_token = 'bfe91875a1ddee1351adaab45345f090'
         client = Client(account_sid, auth_token)
         client.messages.create(
             from_='whatsapp:+14155238886',

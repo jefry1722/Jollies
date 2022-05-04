@@ -123,7 +123,7 @@
           <div class="content" style="color: rgb(239, 155, 20)">
             <h2>&nbsp;Estado: {{contratacion.estado|capfirst}}</h2>
           </div>
-          {%if contratacion.estado == "pendiente aprobacion" and  contratacion.fecha >= fecha_actual%}
+          {%if contratacion.estado == "pendiente aprobacion" and contratacion.fecha >= fecha_actual%}
           <a
             class="list-group-item list-group-item-primary subir_media"
             href="menu_agrupacion/aprobar/{{contratacion.id}}"
@@ -141,18 +141,25 @@
           {%endif%} {%if contratacion.estado == "aprobado" and contratacion.fecha >= fecha_actual%}
           <a
             class="list-group-item list-group-item-secondary subir_media"
-            onclick="reportarUbicacion()"
+            onclick="reportarUbicacion(event)"
             style="cursor: pointer"
             >Reportar ubicación&nbsp;&nbsp;<i
               class="fa-solid fa-location-dot"
-            ></i>
+            ></i
+            ><input
+              name="id"
+              value="{{contratacion.id}}"
+              hidden
+            />
           </a>
           <a
             class="list-group-item list-group-item-warning subir_media"
             href="menu_agrupacion/completar/{{contratacion.id}}"
-            >Completar contratación&nbsp;&nbsp;<i class="fa-solid fa-flag-checkered"></i>
+            >Completar contratación&nbsp;&nbsp;<i
+              class="fa-solid fa-flag-checkered"
+            ></i>
           </a>
-          <input name="id" id="hidden_id" value="{{contratacion.id}}" hidden />
+
           {%endif%}
         </div>
         {% endfor %}
@@ -161,11 +168,11 @@
     </main>
     <script src="static/js/script.js"></script>
     <script type="text/javascript">
-      const reportarUbicacion = () => {
+      const reportarUbicacion = (event) => {
         const form = document.getElementById("gps_form");
         navigator.geolocation.getCurrentPosition(
           ({ coords: { latitude, longitude } }) => {
-            const inputId = document.getElementById("hidden_id");
+            const inputId = event.target.childNodes[2]
             const inputLat = document.createElement("input");
             const inputLon = document.createElement("input");
             inputLat.name = "lat";
