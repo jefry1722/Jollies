@@ -32,18 +32,22 @@ def crearContratacion(request, id, correo):
         tiempo = request.POST.get("tiempo")
         direccion = request.POST.get("direccion")
 
-        # Validar si la agrupación tiene otra contratación con 1 hora y 30 minutos de anticipación
-        hora_actual_mas_1_30_horas = (datetime.now() + timedelta(hours=1.5)).strftime("%H:%M")
+        # Validar si la agrupación tiene otra contratación con 30 minutos de anticipación
         contrataciones = Contratacion.objects.filter(~Q(estado__in=["cancelado"]), agrupacion=agrupacion,
                                                      fecha__gte=fecha_actual)
         for contratacion in contrataciones:
-            if contratacion.fecha.__str__() == fecha and datetime.strptime(hora, "%H:%M").strftime(
-                    "%H:%M") <= hora_actual_mas_1_30_horas:
+            fecha_contratacion_con_hora = datetime.strptime(fecha + " " + hora,
+                                                            "%Y-%m-%d %H:%M")
+            fecha_contratacion_actual_con_hora = (datetime.strptime(
+                contratacion.fecha.__str__() + " " + contratacion.hora.__str__(), "%Y-%m-%d %H:%M")) + timedelta(
+                hours=0.5 + contratacion.tiempo)
+
+            if fecha_contratacion_con_hora.strftime("%Y-%m-%d") == fecha_contratacion_actual_con_hora.strftime(
+                    "%Y-%m-%d") and fecha_contratacion_con_hora.strftime(
+                "%H:%M") <= fecha_contratacion_actual_con_hora.strftime("%H:%M"):
                 swal_error_fecha_contratacion = True
                 break
-            if contratacion.fecha.__str__() == fecha and hora_actual_mas_1_30_horas <= datetime.strptime("01:30",
-                                                                                                         "%H:%M").strftime(
-                "%H:%M"):
+            if (fecha_contratacion_actual_con_hora.date() - fecha_contratacion_con_hora.date()).days == 1:
                 swal_error_fecha_contratacion = True
                 break
 
@@ -112,12 +116,21 @@ def editarContratacion(request, id_usuario, id_contratacion):
             direccion = request.POST.get("direccion")
 
             # Validar si la agrupación tiene otra contratación con 1 hora y 30 minutos de anticipación
-            hora_actual_mas_1_30_horas = (datetime.now() + timedelta(hours=1.5)).strftime("%H:%M")
             contrataciones = Contratacion.objects.filter(~Q(estado__in=["cancelado"]), agrupacion=agrupacion,
                                                          fecha__gte=fecha_actual)
             for contratacion in contrataciones:
-                if contratacion.fecha.__str__() == fecha and datetime.strptime(hora, "%H:%M").strftime(
-                        "%H:%M") <= hora_actual_mas_1_30_horas:
+                fecha_contratacion_con_hora = datetime.strptime(fecha + " " + hora,
+                                                                "%Y-%m-%d %H:%M")
+                fecha_contratacion_actual_con_hora = (datetime.strptime(
+                    contratacion.fecha.__str__() + " " + contratacion.hora.__str__(), "%Y-%m-%d %H:%M")) + timedelta(
+                    hours=0.5 + contratacion.tiempo)
+
+                if fecha_contratacion_con_hora.strftime("%Y-%m-%d") == fecha_contratacion_actual_con_hora.strftime(
+                        "%Y-%m-%d") and fecha_contratacion_con_hora.strftime(
+                    "%H:%M") <= fecha_contratacion_actual_con_hora.strftime("%H:%M"):
+                    swal_error_fecha_contratacion = True
+                    break
+                if (fecha_contratacion_actual_con_hora.date() - fecha_contratacion_con_hora.date()).days == 1:
                     swal_error_fecha_contratacion = True
                     break
 
