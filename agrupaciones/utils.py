@@ -2,11 +2,17 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import environ
 
-def enviarCorreo(to,subject,message_to_send):
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
+
+def enviarCorreo(to, subject, message_to_send):
     port = 587
     email = "jolliesapp@gmail.com"
-    codigo="brlqcjkvommtkkdv"
+    codigo = env('EMAIL_CODE')
     message = MIMEMultipart()
     message["From"] = email
     message["To"] = to

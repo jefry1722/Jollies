@@ -10,9 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
 from pathlib import Path
-import cloudinary
-import cloudinary.uploader
 import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9qx%zvc$)zr2v4&pc!&1w=lkwhr-s0c&cw)zm)3i&kb@c08xzx'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -128,12 +132,12 @@ STATIC_URL = 'static/'
 
 cloudinary.config(
     cloud_name="dc37wmve7",
-    api_key="989755416842815",
-    api_secret="H3GNJanhANRzpvGwUK1JJgd9J70"
+    api_key=env('CLOUDINARY_API_KEY'),
+    api_secret=env('CLOUDINARY_API_SECRET')
 )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CLOUDINARY_URL = 'cloudinary://989755416842815:H3GNJanhANRzpvGwUK1JJgd9J70@dc37wmve7'
+CLOUDINARY_URL = env('CLOUDINARY_URL')

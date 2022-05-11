@@ -10,6 +10,12 @@ from agrupaciones.utils import enviarCorreo
 from contrataciones.models import Contratacion
 from twilio.rest import Client
 
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
 
 def embed_url(video_url):
     regex = r"(?:https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)"
@@ -272,8 +278,8 @@ def verSolicitudesAgrupacion(request):
         longitud = request.POST.get("lon")
 
         contratacion = Contratacion.objects.get(id=id_contratacion)
-        account_sid = 'AC78eb6cd94e3fe585335ba179f7d09152'
-        auth_token = 'bfe91875a1ddee1351adaab45345f090'
+        account_sid = env('ACCOUNT_SID')
+        auth_token = env('AUTH_TOKEN')
         client = Client(account_sid, auth_token)
         client.messages.create(
             from_='whatsapp:+14155238886',
@@ -301,7 +307,8 @@ def aprobarContratacion(request, id):
     except:
         return redirect('index')
 
-def completarContratacion(request,id):
+
+def completarContratacion(request, id):
     if not validateAgrupacionSession(request):
         return redirect('index')
     try:
@@ -313,6 +320,7 @@ def completarContratacion(request,id):
         return redirect('solicitudes_agrupacion')
     except:
         return redirect('index')
+
 
 def rechazarContratacion(request, id):
     if not validateAgrupacionSession(request):
@@ -371,4 +379,3 @@ def verContratacionesIntegrante(request, correo):
         return render(request, 'contrataciones_integrante.html', {'contrataciones': contrataciones})
     except:
         return redirect('index')
-
