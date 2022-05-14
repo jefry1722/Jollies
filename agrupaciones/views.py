@@ -2,6 +2,7 @@ from datetime import date, timedelta
 import calendar
 import re
 import cloudinary.uploader
+from django.views.decorators.http import require_http_methods
 from werkzeug.security import generate_password_hash, check_password_hash
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -22,19 +23,20 @@ def embed_url(video_url):
     return re.sub(regex, r"https://www.youtube.com/embed/\1", video_url)
 
 
-def validateManagerSession(request):
+def validate_manager_session(request):
     if "manager_id" not in request.session:
         return False
     return True
 
 
-def validateAgrupacionSession(request):
+def validate_agrupacion_session(request):
     if "agrupacion_id" not in request.session:
         return False
     return True
 
 
-def nuevoManager(request):
+@require_http_methods(["POST", "GET"])
+def nuevo_manager(request):
     if request.method == "POST":
         nombre = request.POST.get("nombre")
         apellido = request.POST.get("apellido")
@@ -67,8 +69,9 @@ def nuevoManager(request):
     return render(request, 'nuevo_manager.html')
 
 
-def nuevaAgrupacion(request):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def nueva_agrupacion(request):
+    if not validate_manager_session(request):
         return redirect('index')
     generos = Genero.objects.order_by('id')
     if request.method == 'POST':
@@ -107,8 +110,9 @@ def nuevaAgrupacion(request):
     return render(request, 'nueva_agrupacion.html', {'generos': generos})
 
 
-def editarAgrupacion(request, id):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def editar_agrupacion(request, id):
+    if not validate_manager_session(request):
         return redirect('index')
     agrupacion = get_object_or_404(Agrupacion, pk=id)
     manager = Manager.objects.get(id=request.session["manager_id"])
@@ -139,7 +143,8 @@ def editarAgrupacion(request, id):
                                                      'precio': agrupacion.precio})
 
 
-def loginManager(request):
+@require_http_methods(["POST", "GET"])
+def login_manager(request):
     if "manager_id" in request.session:
         return redirect('menu_manager')
     if "agrupacion_id" in request.session:
@@ -174,39 +179,44 @@ def loginManager(request):
     return render(request, 'login_manager.html')
 
 
-def menuManager(request):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def menu_manager(request):
+    if not validate_manager_session(request):
         return redirect('index')
     manager = Manager.objects.get(id=request.session["manager_id"])
     return render(request, 'menu_manager.html', {'manager': manager})
 
 
-def menuManagerMedia(request):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def menu_manager_media(request):
+    if not validate_manager_session(request):
         return redirect('index')
     manager = Manager.objects.get(id=request.session["manager_id"])
     agrupaciones = Agrupacion.objects.filter(manager=manager)
     return render(request, 'menu_manager_media.html', {'agrupaciones': agrupaciones})
 
 
-def menuManagerAgrupaciones(request):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def menu_manager_agrupaciones(request):
+    if not validate_manager_session(request):
         return redirect('index')
     manager = Manager.objects.get(id=request.session["manager_id"])
     agrupaciones = Agrupacion.objects.filter(manager=manager)
     return render(request, 'menu_manager_agrupaciones.html', {'agrupaciones': agrupaciones})
 
 
-def menuManagerEditar(request):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def menu_manager_editar(request):
+    if not validate_manager_session(request):
         return redirect('index')
     manager = Manager.objects.get(id=request.session["manager_id"])
     agrupaciones = Agrupacion.objects.filter(manager=manager)
     return render(request, 'menu_manager_editar.html', {'agrupaciones': agrupaciones})
 
 
-def renovateAccountDate(request):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def renovate_account_date(request):
+    if not validate_manager_session(request):
         return redirect('index')
     if request.method == "POST":
         start_date = date.today()
@@ -220,6 +230,7 @@ def renovateAccountDate(request):
     return render(request, 'renovate.html')
 
 
+@require_http_methods(["POST", "GET"])
 def logout(request):
     if request.session.has_key("manager_id"):
         request.session.flush()
@@ -228,8 +239,9 @@ def logout(request):
     return redirect('index')
 
 
-def subirMedia(request, id):
-    if not validateManagerSession(request):
+@require_http_methods(["POST", "GET"])
+def subir_media(request, id):
+    if not validate_manager_session(request):
         return redirect('index')
     agrupacion = get_object_or_404(Agrupacion, pk=id)
     manager = Manager.objects.get(id=request.session["manager_id"])
@@ -256,8 +268,9 @@ def subirMedia(request, id):
     return render(request, 'menu_manager_media_subir.html')
 
 
-def menuAgrupacion(request):
-    if not validateAgrupacionSession(request):
+@require_http_methods(["POST", "GET"])
+def menu_agrupacion(request):
+    if not validate_agrupacion_session(request):
         return redirect('index')
     agrupacion = Agrupacion.objects.get(id=request.session["agrupacion_id"])
     first = str(agrupacion.telefono)[0:3]
@@ -268,8 +281,9 @@ def menuAgrupacion(request):
     return render(request, 'menu_agrupacion.html', {'agrupacion': agrupacion, 'telefono': phone, 'precio': precio})
 
 
-def verSolicitudesAgrupacion(request):
-    if not validateAgrupacionSession(request):
+@require_http_methods(["POST", "GET"])
+def ver_solicitudes_agrupacion(request):
+    if not validate_agrupacion_session(request):
         return redirect('index')
     # Envio de ubicación
     if request.method == 'POST':
@@ -294,8 +308,9 @@ def verSolicitudesAgrupacion(request):
                   {'contrataciones': contrataciones, 'fecha_actual': fecha_actual})
 
 
-def aprobarContratacion(request, id):
-    if not validateAgrupacionSession(request):
+@require_http_methods(["POST", "GET"])
+def aprobar_contratacion(request, id):
+    if not validate_agrupacion_session(request):
         return redirect('index')
     try:
         contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
@@ -308,8 +323,9 @@ def aprobarContratacion(request, id):
         return redirect('index')
 
 
-def completarContratacion(request, id):
-    if not validateAgrupacionSession(request):
+@require_http_methods(["POST", "GET"])
+def completar_contratacion(request, id):
+    if not validate_agrupacion_session(request):
         return redirect('index')
     try:
         contratacion = Contratacion.objects.get(id=id, agrupacion_id=request.session["agrupacion_id"])
@@ -322,8 +338,9 @@ def completarContratacion(request, id):
         return redirect('index')
 
 
-def rechazarContratacion(request, id):
-    if not validateAgrupacionSession(request):
+@require_http_methods(["POST", "GET"])
+def rechazar_contratacion(request, id):
+    if not validate_agrupacion_session(request):
         return redirect('index')
     if request.method == "POST":
         comentario = request.POST.get("comentario")
@@ -342,22 +359,25 @@ def rechazarContratacion(request, id):
     return render(request, 'menu_agrupacion_cancelar.html')
 
 
-def verRetroalimentaciones(request):
-    if not validateAgrupacionSession(request):
+@require_http_methods(["POST", "GET"])
+def ver_retroalimentaciones(request):
+    if not validate_agrupacion_session(request):
         return redirect('index')
     contrataciones = Contratacion.objects.filter(rating__isnull=False, agrupacion_id=request.session["agrupacion_id"])
     return render(request, 'menu_agrupacion_retroalimentaciones.html', {'contrataciones': contrataciones})
 
 
-def validarCorreoIntegrante(request):
+@require_http_methods(["POST", "GET"])
+def validar_correo_integrante(request):
     if request.method == 'POST':
         correo = request.POST.get("correo")
         return redirect('contrataciones_integrante', correo=correo)
     return render(request, 'validacion_correo_integrante.html')
 
 
-def asociarIntegrante(request):
-    if not validateAgrupacionSession(request):
+@require_http_methods(["POST", "GET"])
+def asociar_integrante(request):
+    if not validate_agrupacion_session(request):
         return redirect('index')
     if request.method == 'POST':
         correo = request.POST.get("correo")
@@ -372,7 +392,8 @@ def asociarIntegrante(request):
     return render(request, 'menu_agrupacion_nuevo_integrante.html')
 
 
-def verContratacionesIntegrante(request, correo):
+@require_http_methods(["POST", "GET"])
+def ver_contrataciones_integrante(request, correo):
     try:
         integrante = Integrante.objects.get(correo=correo)
         contrataciones = Contratacion.objects.filter(agrupacion=integrante.agrupacion)

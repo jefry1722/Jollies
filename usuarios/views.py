@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods
+
 from agrupaciones.models import Agrupacion, Genero, Media
 from contrataciones.models import Contratacion
 from datetime import date, datetime, timedelta
@@ -7,7 +9,8 @@ from django.db.models import Q
 from usuarios.models import Usuario
 
 
-def verAgrupaciones(request, id):
+@require_http_methods(["POST", "GET"])
+def ver_agrupaciones(request, id):
     agrupaciones = Agrupacion.objects.filter(genero_id=id)
     if len(agrupaciones) == 0:
         return render(request, 'menu_usuario_agrupaciones.html', {'swal_error_agrupaciones': True})
@@ -21,7 +24,8 @@ def verAgrupaciones(request, id):
     return render(request, 'menu_usuario_agrupaciones.html', {'agrupaciones': agrupaciones})
 
 
-def verGeneros(request):
+@require_http_methods(["POST", "GET"])
+def ver_generos(request):
     generos = Genero.objects.order_by('nombre')
     if request.method == 'POST':
         genero = request.POST.get("genero")
@@ -32,7 +36,8 @@ def verGeneros(request):
     return render(request, 'menu_usuario_generos.html', {'generos': generos})
 
 
-def caracteristicasPorAgrupacion(request, id):
+@require_http_methods(["POST", "GET"])
+def caracteristicas_por_agrupacion(request, id):
     try:
         agrupacion = get_object_or_404(Agrupacion, pk=id)
         precio = "{:,}".format(agrupacion.precio).replace(",", ".")
@@ -42,22 +47,24 @@ def caracteristicasPorAgrupacion(request, id):
         first = str(agrupacion.telefono)[0:3]
         second = str(agrupacion.telefono)[3:6]
         third = str(agrupacion.telefono)[6:10]
-        phone=first + '-' + second + '-' + third
+        phone = first + '-' + second + '-' + third
         return render(request, 'menu_usuario_caracteristicas.html',
                       {'agrupacion': agrupacion, 'precio': precio, 'agrupacionMedia': agrupacionMedia,
-                       'contrataciones': contrataciones,'telefono':phone})
+                       'contrataciones': contrataciones, 'telefono': phone})
     except:
         return redirect('generos')
 
 
-def validarCorreoParaContrataciones(request):
+@require_http_methods(["POST", "GET"])
+def validar_correo_para_contrataciones(request):
     if request.method == 'POST':
         correo = request.POST.get("correo")
         return redirect('historial_usuario', correo=correo)
     return render(request, 'validacion_correo.html')
 
 
-def historialDeContrataciones(request, correo):
+@require_http_methods(["POST", "GET"])
+def historial_de_contrataciones(request, correo):
     try:
         usuario = Usuario.objects.get(correo=correo)
         contrataciones = Contratacion.objects.filter(usuario=usuario)
@@ -68,7 +75,8 @@ def historialDeContrataciones(request, correo):
         return render(request, 'menu_usuario_contrataciones.html', {'swal_error_usuario': True})
 
 
-def retroalimentarAgrupacion(request, id_usuario, id_contratacion):
+@require_http_methods(["POST", "GET"])
+def retroalimentar_agrupacion(request, id_usuario, id_contratacion):
     try:
         contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario, estado="completado")
         if request.method == 'POST':

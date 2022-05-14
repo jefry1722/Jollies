@@ -2,20 +2,23 @@ from datetime import date, datetime, timedelta
 
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
 
 from agrupaciones.models import Agrupacion
 from contrataciones.models import Contratacion, Facturacion
 from usuarios.models import Usuario
 
 
-def validarCorreo(request, id):
+@require_http_methods(["POST", "GET"])
+def validar_correo(request, id):
     if request.method == 'POST':
         correo = request.POST.get("correo")
         return redirect('contratacion', id=id, correo=correo)
     return render(request, 'validacion_correo.html')
 
 
-def crearContratacion(request, id, correo):
+@require_http_methods(["POST", "GET"])
+def crear_contratacion(request, id, correo):
     fecha_actual = date.today()
     hora_actual_mas_3_horas = (datetime.now() + timedelta(hours=3)).strftime("%H:%M")
     swal_error_fecha = False
@@ -89,7 +92,8 @@ def crearContratacion(request, id, correo):
                        'swal_error_fecha_contratacion': swal_error_fecha_contratacion, 'direccion': direccion})
 
 
-def cancelarContratacion(request, id_usuario, id_contratacion):
+@require_http_methods(["POST", "GET"])
+def cancelar_contratacion(request, id_usuario, id_contratacion):
     try:
         contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario)
         contratacion.estado = "cancelado"
@@ -99,7 +103,8 @@ def cancelarContratacion(request, id_usuario, id_contratacion):
         return redirect('index')
 
 
-def editarContratacion(request, id_usuario, id_contratacion):
+@require_http_methods(["POST", "GET"])
+def editar_contratacion(request, id_usuario, id_contratacion):
     fecha_actual = date.today()
     hora_actual_mas_3_horas = (datetime.now() + timedelta(hours=3)).strftime("%H:%M")
     swal_error_fecha = False
@@ -155,7 +160,8 @@ def editarContratacion(request, id_usuario, id_contratacion):
         return redirect('index')
 
 
-def realizarAbono(request, id):
+@require_http_methods(["POST", "GET"])
+def realizar_abono(request, id):
     contratacion = Contratacion.objects.get(id=id)
     abono = contratacion.precio * 0.1
     precio = "{:,}".format(abono).replace(",", ".")

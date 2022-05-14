@@ -1,11 +1,13 @@
 from django.db.models import Avg
 from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 
 from agrupaciones.models import Agrupacion
 from contrataciones.models import Contratacion
 from usuarios.models import Usuario
 
 
+@require_http_methods(["POST", "GET"])
 def inicio(request):
     agrupaciones = Agrupacion.objects.order_by('id')
     top_agrupaciones = Contratacion.objects.values('agrupacion__nombre').order_by('agrupacion_id').annotate(
