@@ -56,6 +56,7 @@
     ></script>
   </head>
   <body id="body" class="body_manager">
+    {% load my_filters %}
     <header>
       <div class="icon__menu">
         <i class="fas fa-bars" id="btn_open"></i>
@@ -118,6 +119,11 @@
             <h2 class="m-3">
               {{contratacion.fecha|date:'d-m-Y'}}
               {{contratacion.hora}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{contratacion.direccion}}
+            </h2>
+          </div>
+          <div class="content" style="margin-left: 10px;">
+            <h2>
+              <small>$</small>{{contratacion.precio|currency}}
             </h2>
           </div>
           <div class="content" style="color: rgb(239, 155, 20)">

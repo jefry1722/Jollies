@@ -41,6 +41,7 @@
     ></script>
   </head>
   <body class="body_correo no_body">
+    {% load my_filters %}
     <div class="container-xxl position-relative p-0" id="home">
       <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
           <a href="/" class="navbar-brand p-0">
@@ -73,6 +74,12 @@
               {{contratacion.fecha|date:'d-m-Y'}} {{contratacion.hora}}
             </h2>
           </div>
+          <div class="content" style="margin-left: 10px;">
+            <h2>
+              <small>$</small>{{contratacion.precio|currency}}
+            </h2>
+          </div>
+          
           <div class="content" style="color: rgb(239, 155, 20)">
             <h2>&nbsp;Estado: {{contratacion.estado|capfirst}}</h2>
           </div>
