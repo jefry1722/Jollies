@@ -7,7 +7,6 @@ from contrataciones.models import Contratacion
 from usuarios.models import Usuario
 
 
-@require_http_methods(["POST", "GET"])
 def inicio(request):
     agrupaciones = Agrupacion.objects.order_by('id')
     top_agrupaciones = Contratacion.objects.values('agrupacion__nombre').order_by('agrupacion_id').annotate(

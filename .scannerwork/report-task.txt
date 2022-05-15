@@ -2,5 +2,5 @@ projectKey=JolliesAppSonar
 serverUrl=http://localhost:9000
 serverVersion=9.4.0.54424
 dashboardUrl=http://localhost:9000/dashboard?id=JolliesAppSonar
-ceTaskId=AYC2SU2t-rB7C4RuyboU
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYC2SU2t-rB7C4RuyboU
+ceTaskId=AYDAt0yrknJDJ28y-MwY
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYDAt0yrknJDJ28y-MwY
