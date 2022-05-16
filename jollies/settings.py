@@ -41,13 +41,14 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
+CSRF_TRUSTED_ORIGINS = ["https://jollies-app.herokuapp.com"]
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["https://jollies-app.herokuapp.com","127.0.0.1"]
 
 STATICFILES_DIRS = ['static']
 
