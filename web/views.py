@@ -23,3 +23,6 @@ def inicio(request):
     usuarios = Usuario.objects.order_by('id')
     return render(request, 'index.html', {'numero_agrupaciones': len(agrupaciones), 'numero_usuarios': len(usuarios),
                                           'top_agrupaciones': top_agrupaciones})
+
+def terminos(request):
+    return render(request,'terminos.html')

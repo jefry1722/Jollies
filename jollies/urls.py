@@ -24,11 +24,12 @@ from contrataciones.views import validar_correo, crear_contratacion, realizar_ab
     cancelar_contratacion
 from usuarios.views import ver_agrupaciones, ver_generos, caracteristicas_por_agrupacion, validar_correo_para_contrataciones, \
     historial_de_contrataciones, retroalimentar_agrupacion
-from web.views import inicio
+from web.views import inicio, terminos
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio, name='index'),
+    path('terminos', terminos, name='terminos'),
     path('nuevo_manager', nuevo_manager),
     path('nueva_agrupacion', nueva_agrupacion),
     path('login_manager', login_manager, name='login_manager'),
