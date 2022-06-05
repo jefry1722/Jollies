@@ -9,7 +9,6 @@ from django.db.models import Q
 from usuarios.models import Usuario
 
 
-@require_http_methods(["POST", "GET"])
 def ver_agrupaciones(request, id):
     agrupaciones = Agrupacion.objects.filter(genero_id=id)
     if len(agrupaciones) == 0:
@@ -24,7 +23,6 @@ def ver_agrupaciones(request, id):
     return render(request, 'menu_usuario_agrupaciones.html', {'agrupaciones': agrupaciones})
 
 
-@require_http_methods(["POST", "GET"])
 def ver_generos(request):
     generos = Genero.objects.order_by('nombre')
     if request.method == 'POST':
@@ -36,7 +34,6 @@ def ver_generos(request):
     return render(request, 'menu_usuario_generos.html', {'generos': generos})
 
 
-@require_http_methods(["POST", "GET"])
 def caracteristicas_por_agrupacion(request, id):
     try:
         agrupacion = get_object_or_404(Agrupacion, pk=id)
@@ -55,7 +52,6 @@ def caracteristicas_por_agrupacion(request, id):
         return redirect('generos')
 
 
-@require_http_methods(["POST", "GET"])
 def validar_correo_para_contrataciones(request):
     if request.method == 'POST':
         correo = request.POST.get("correo")
@@ -63,7 +59,6 @@ def validar_correo_para_contrataciones(request):
     return render(request, 'validacion_correo.html')
 
 
-@require_http_methods(["POST", "GET"])
 def historial_de_contrataciones(request, correo):
     try:
         usuario = Usuario.objects.get(correo=correo)
@@ -75,7 +70,6 @@ def historial_de_contrataciones(request, correo):
         return render(request, 'menu_usuario_contrataciones.html', {'swal_error_usuario': True})
 
 
-@require_http_methods(["POST", "GET"])
 def retroalimentar_agrupacion(request, id_usuario, id_contratacion):
     try:
         contratacion = Contratacion.objects.get(id=id_contratacion, usuario_id=id_usuario, estado="completado")

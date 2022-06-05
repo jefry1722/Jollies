@@ -8,7 +8,6 @@ from contrataciones.models import Contratacion
 from usuarios.models import Usuario
 
 
-@require_http_methods(["POST", "GET"])
 def inicio(request):
     if request.method == "POST":
         nombre = request.POST.get("name")

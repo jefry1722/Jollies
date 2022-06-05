@@ -35,7 +35,6 @@ def validate_agrupacion_session(request):
     return True
 
 
-@require_http_methods(["POST", "GET"])
 def nuevo_manager(request):
     if request.method == "POST":
         nombre = request.POST.get("nombre")
@@ -69,7 +68,6 @@ def nuevo_manager(request):
     return render(request, 'nuevo_manager.html')
 
 
-@require_http_methods(["POST", "GET"])
 def nueva_agrupacion(request):
     if not validate_manager_session(request):
         return redirect('index')
@@ -110,7 +108,6 @@ def nueva_agrupacion(request):
     return render(request, 'nueva_agrupacion.html', {'generos': generos})
 
 
-@require_http_methods(["POST", "GET"])
 def editar_agrupacion(request, id):
     if not validate_manager_session(request):
         return redirect('index')
@@ -143,7 +140,6 @@ def editar_agrupacion(request, id):
                                                      'precio': agrupacion.precio})
 
 
-@require_http_methods(["POST", "GET"])
 def login_manager(request):
     if "manager_id" in request.session:
         return redirect('menu_manager')
@@ -179,7 +175,6 @@ def login_manager(request):
     return render(request, 'login_manager.html')
 
 
-@require_http_methods(["POST", "GET"])
 def menu_manager(request):
     if not validate_manager_session(request):
         return redirect('index')
@@ -187,7 +182,6 @@ def menu_manager(request):
     return render(request, 'menu_manager.html', {'manager': manager})
 
 
-@require_http_methods(["POST", "GET"])
 def menu_manager_media(request):
     if not validate_manager_session(request):
         return redirect('index')
@@ -196,7 +190,6 @@ def menu_manager_media(request):
     return render(request, 'menu_manager_media.html', {'agrupaciones': agrupaciones})
 
 
-@require_http_methods(["POST", "GET"])
 def menu_manager_agrupaciones(request):
     if not validate_manager_session(request):
         return redirect('index')
@@ -205,7 +198,6 @@ def menu_manager_agrupaciones(request):
     return render(request, 'menu_manager_agrupaciones.html', {'agrupaciones': agrupaciones})
 
 
-@require_http_methods(["POST", "GET"])
 def menu_manager_editar(request):
     if not validate_manager_session(request):
         return redirect('index')
@@ -214,7 +206,6 @@ def menu_manager_editar(request):
     return render(request, 'menu_manager_editar.html', {'agrupaciones': agrupaciones})
 
 
-@require_http_methods(["POST", "GET"])
 def renovate_account_date(request):
     if not validate_manager_session(request):
         return redirect('index')
@@ -230,7 +221,6 @@ def renovate_account_date(request):
     return render(request, 'renovate.html')
 
 
-@require_http_methods(["POST", "GET"])
 def logout(request):
     if request.session.has_key("manager_id"):
         request.session.flush()
@@ -239,7 +229,6 @@ def logout(request):
     return redirect('index')
 
 
-@require_http_methods(["POST", "GET"])
 def subir_media(request, id):
     if not validate_manager_session(request):
         return redirect('index')
@@ -268,7 +257,6 @@ def subir_media(request, id):
     return render(request, 'menu_manager_media_subir.html')
 
 
-@require_http_methods(["POST", "GET"])
 def menu_agrupacion(request):
     if not validate_agrupacion_session(request):
         return redirect('index')
@@ -281,7 +269,6 @@ def menu_agrupacion(request):
     return render(request, 'menu_agrupacion.html', {'agrupacion': agrupacion, 'telefono': phone, 'precio': precio})
 
 
-@require_http_methods(["POST", "GET"])
 def ver_solicitudes_agrupacion(request):
     if not validate_agrupacion_session(request):
         return redirect('index')
@@ -308,7 +295,6 @@ def ver_solicitudes_agrupacion(request):
                   {'contrataciones': contrataciones, 'fecha_actual': fecha_actual})
 
 
-@require_http_methods(["POST", "GET"])
 def aprobar_contratacion(request, id):
     if not validate_agrupacion_session(request):
         return redirect('index')
@@ -323,7 +309,6 @@ def aprobar_contratacion(request, id):
         return redirect('index')
 
 
-@require_http_methods(["POST", "GET"])
 def completar_contratacion(request, id):
     if not validate_agrupacion_session(request):
         return redirect('index')
@@ -338,7 +323,6 @@ def completar_contratacion(request, id):
         return redirect('index')
 
 
-@require_http_methods(["POST", "GET"])
 def rechazar_contratacion(request, id):
     if not validate_agrupacion_session(request):
         return redirect('index')
@@ -359,7 +343,6 @@ def rechazar_contratacion(request, id):
     return render(request, 'menu_agrupacion_cancelar.html')
 
 
-@require_http_methods(["POST", "GET"])
 def ver_retroalimentaciones(request):
     if not validate_agrupacion_session(request):
         return redirect('index')
@@ -367,7 +350,6 @@ def ver_retroalimentaciones(request):
     return render(request, 'menu_agrupacion_retroalimentaciones.html', {'contrataciones': contrataciones})
 
 
-@require_http_methods(["POST", "GET"])
 def validar_correo_integrante(request):
     if request.method == 'POST':
         correo = request.POST.get("correo")
@@ -375,7 +357,6 @@ def validar_correo_integrante(request):
     return render(request, 'validacion_correo_integrante.html')
 
 
-@require_http_methods(["POST", "GET"])
 def asociar_integrante(request):
     if not validate_agrupacion_session(request):
         return redirect('index')
@@ -392,7 +373,6 @@ def asociar_integrante(request):
     return render(request, 'menu_agrupacion_nuevo_integrante.html')
 
 
-@require_http_methods(["POST", "GET"])
 def ver_contrataciones_integrante(request, correo):
     try:
         integrante = Integrante.objects.get(correo=correo)
